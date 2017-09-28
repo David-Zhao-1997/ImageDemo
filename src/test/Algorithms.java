@@ -9,7 +9,8 @@ import utils.ShortImage;
 
 /**
  * 算法测试阶段
- * (Inku)
+ * (David)
+ * 测试完成了1%
  */
 public class Algorithms
 {
