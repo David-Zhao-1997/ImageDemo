@@ -89,7 +89,7 @@ public class EnviImage
 	}
 
 	/**
-	 * 获取经度
+	 * 获取起始经度
 	 * 
 	 * @return lon
 	 */
@@ -99,7 +99,7 @@ public class EnviImage
 	}
 
 	/**
-	 * 获取纬度
+	 * 获取起始纬度
 	 * 
 	 * @return lat
 	 */
@@ -109,7 +109,7 @@ public class EnviImage
 	}
 
 	/**
-	 * 获取水平相邻两个像素点的经度差
+	 * 获取水平相邻两个像素点的经度差(delta)
 	 * 
 	 * @return deltaLon
 	 */
@@ -119,7 +119,7 @@ public class EnviImage
 	}
 
 	/**
-	 * 获取垂直相邻两个像素点的纬度差
+	 * 获取垂直相邻两个像素点的纬度差(delta)
 	 * 
 	 * @return deltaLat
 	 */
