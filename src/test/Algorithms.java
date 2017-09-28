@@ -8,9 +8,9 @@ import utils.Pair;
 import utils.ShortImage;
 
 /**
- * 算法测试阶段
- * (David)
- * 测试完成了1%
+ * 算法测试类<br>
+ * 用于计算连通区域的个数
+ * @see Algorithms#connectedDomainCount(short[][])
  */
 public class Algorithms
 {
@@ -119,6 +119,11 @@ public class Algorithms
 		return Collections.max(fpo.runLabels) - fpo.equivalences.size();
 	}
 
+	/**
+	 * 方法用于计算某图中连通区域的个数
+	 * @param img 一个short Image（以short[][]形式）
+	 * @return int 连通区域的个数
+	 */
 	public static int connectedDomainCount(short[][] img)
 	{
 //		System.out.println(img);
