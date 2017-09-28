@@ -7,6 +7,9 @@ import java.util.Collections;
 import utils.Pair;
 import utils.ShortImage;
 
+/**
+ * 算法测试阶段
+ */
 public class Algorithms
 {
 
