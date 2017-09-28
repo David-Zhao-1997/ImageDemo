@@ -9,6 +9,7 @@ import utils.ShortImage;
 
 /**
  * 算法测试阶段
+ * (Inku)
  */
 public class Algorithms
 {
