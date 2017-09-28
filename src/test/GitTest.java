@@ -6,4 +6,9 @@ public class GitTest
     {
         System.out.println("change by no one");
     }
+
+    public static void DavidMethod()
+    {
+
+    }
 }
