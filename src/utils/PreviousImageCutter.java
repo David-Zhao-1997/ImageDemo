@@ -3,10 +3,12 @@ package utils;
 import java.io.IOException;
 
 /**
- * 图像切割工具
+ * 图像切割工具<br>
+ * 暂时弃用，不需要阅读
  * @author David
  *
  */
+@Deprecated
 public class PreviousImageCutter
 {
 

@@ -26,7 +26,8 @@ public class ImageCutter
 
 	/**
 	 * 将名称为image的图片裁剪为width*height分辨率的文件并存放在filename路径下
-	 * 
+	 * <br>
+	 * HDR的生成是自动的
 	 * @param width
 	 *            裁剪的子图像的宽度
 	 * @param height
@@ -94,7 +95,8 @@ public class ImageCutter
 
 	/**
 	 * 将名称为image的图片裁剪为width*height分辨率的文件并在进行(band4-band3+255)处理后将文件存放在filename路径下
-	 * 
+	 * <br>
+	 * HDR的生成是自动的
 	 * @param width
 	 *            裁剪的子图像的宽度
 	 * @param height

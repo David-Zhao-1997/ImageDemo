@@ -30,6 +30,14 @@ public class ByteImage extends EnviImage
 	Object[] band = { band1, band2, band3, band4 };
 	Object[] b = { b1, b2, b3, b4 };
 
+	/**
+	 * 请不要调用本方法 <br>
+	 * This method accepts an <code>int</code> and converts the corresponding band into
+	 * <code>byte[][]</code>
+	 * @param x starts from 1
+	 * @return
+	 * @throws IOException
+	 */
 	public byte[][] getBandInBytes(int x) throws IOException
 	{
 		byte[][] band = null;
@@ -63,6 +71,14 @@ public class ByteImage extends EnviImage
 		return band;
 	}
 
+	/**
+	 * 请不要调用本方法 <br>
+	 * This method accepts an <code>int</code> and converts the corresponding band into
+	 * <code>short[][]</code>
+	 * @param x starts from 1
+	 * @return
+	 * @throws IOException
+	 */
 	public short[][] getBandInShorts(int x) throws IOException
 	{
 		short[][] b = null;

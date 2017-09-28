@@ -6,10 +6,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * 用于静态调用
+ * @see HdrGenerator#generate(EnviImage, String, int, int, int)
+ */
 public class HdrGenerator
 {
+	/**
+	 * Inku曾经写过的垃圾代码，如果调用可能会被群殴<br>
+	 * Copies the original HDR and pastes
+	 * @param samplePath 文件路径及名称
+	 * @param filename 目标文件路径及名称
+	 */
 	@Deprecated
-	public static void generate(String samplePath, String filename)
+	public static void generateFake(String samplePath, String filename)
 	{
 		try
 		{

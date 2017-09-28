@@ -1,6 +1,6 @@
 package utils;
 
-public class DatatypesUtils
+public class DataTypeUtils
 {
 	public static short[] toShortArray(byte[] src)
 	{

@@ -57,7 +57,7 @@ public class ShortImage extends EnviImage
 		for (int i = 0; i < lines; i++)
 		{
 			bis.read(band[i]);
-			b[i] = DatatypesUtils.toShortArray(band[i]);
+			b[i] = DataTypeUtils.toShortArray(band[i]);
 		}
 		bis.close();
 		return b;
@@ -77,7 +77,7 @@ public class ShortImage extends EnviImage
 		for (int i = 0; i < lines; i++)
 		{
 			bis.read(band1[i]);
-			b1[i] = DatatypesUtils.toShortArray(band1[i]);
+			b1[i] = DataTypeUtils.toShortArray(band1[i]);
 		}
 		bis.close();
 		return b1;
@@ -97,7 +97,7 @@ public class ShortImage extends EnviImage
 		for (int i = 0; i < lines; i++)
 		{
 			bis.read(band2[i]);
-			b2[i] = DatatypesUtils.toShortArray(band2[i]);
+			b2[i] = DataTypeUtils.toShortArray(band2[i]);
 		}
 		bis.close();
 		return b2;
@@ -117,7 +117,7 @@ public class ShortImage extends EnviImage
 		for (int i = 0; i < lines; i++)
 		{
 			bis.read(band3[i]);
-			b3[i] = DatatypesUtils.toShortArray(band3[i]);
+			b3[i] = DataTypeUtils.toShortArray(band3[i]);
 		}
 		bis.close();
 		return b3;
@@ -137,7 +137,7 @@ public class ShortImage extends EnviImage
 		for (int i = 0; i < lines; i++)
 		{
 			bis.read(band4[i]);
-			b4[i] = DatatypesUtils.toShortArray(band4[i]);
+			b4[i] = DataTypeUtils.toShortArray(band4[i]);
 		}
 		bis.close();
 		return b4;
@@ -154,7 +154,7 @@ public class ShortImage extends EnviImage
 		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path, true), 1024 * 1024);
 		for (int i = 0; i < band.length; i++)
 		{
-			out.write(DatatypesUtils.toByteArray(band[i]));
+			out.write(DataTypeUtils.toByteArray(band[i]));
 		}
 		out.flush();
 		out.close();

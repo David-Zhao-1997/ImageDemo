@@ -6,6 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * General ENVI Image.
+ * @see ByteImage
+ * @see ShortImage
+ */
 public class EnviImage
 {
 	protected int samples;
@@ -51,7 +56,8 @@ public class EnviImage
 	}
 
 	/**
-	 * 获取列数
+	 * 获取列数<br>
+	 * Sample在每一行中表现为一个列(点)
 	 * 
 	 * @return 文件的列数
 	 */
