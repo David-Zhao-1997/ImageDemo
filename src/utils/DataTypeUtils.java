@@ -1,5 +1,11 @@
 package utils;
 
+/**
+ * 静态工具类，用于byte数组和short数组互相转换
+ * @author COMMENT_Inku
+ * @see DataTypeUtils#toByteArray(short[])
+ * @see DataTypeUtils#toShortArray(byte[])
+ */
 public class DataTypeUtils
 {
 	public static short[] toShortArray(byte[] src)

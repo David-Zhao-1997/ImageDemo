@@ -7,6 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * 继承自EnviImage, 表示以Short存储的图像文件, 并提供若干方法
+ * @author David
+ * @author COMMENT_Inku
+ */
 public class ShortImage extends EnviImage
 {
 	private byte[][] band1;

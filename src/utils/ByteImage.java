@@ -7,9 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 用于获取图像文件信息的工具类
+ * 继承自EnviImage, 表示以Byte存储的图像文件, 并提供若干方法
  * @author David
- *
+ * @author COMMENT_Inku
  */
 public class ByteImage extends EnviImage
 {
