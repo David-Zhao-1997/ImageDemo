@@ -20,6 +20,9 @@ public class Algorithms
 	//
 	//	static short[][] img = { { 0, 255, 255, 255, 255, 255, 0, 0, 0, 255, 255, 255, 255, 0 }, { 0, 0, 0, 0, 0, 255, 255, 0, 255, 255, 0, 0, 0, 0 }, { 0, 255, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
+	/**
+	 * Run 团
+	 */
 	static final class Run
 	{
 		ArrayList<Integer> stRun = new ArrayList<>();//团的起点
@@ -100,7 +103,8 @@ public class Algorithms
 					{
 						runLabels.set(i, runLabels.get(j));
 					}
-					else if (runLabels.get(i) != runLabels.get(j))//已经被标号
+					else //noinspection NumberEquality
+						if (runLabels.get(i) != runLabels.get(j))//已经被标号
 					{
 						equivalences.add(Pair.create(runLabels.get(i), runLabels.get(j)));//保存等价对
 					}
