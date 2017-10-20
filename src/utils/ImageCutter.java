@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author David
  *
  */
+@SuppressWarnings("ALL")
 public class ImageCutter
 {
 

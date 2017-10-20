@@ -19,6 +19,9 @@ public class CountTest
 		//			}
 		//		}
 		//		ShortImage.saveBandsToFile("C:\\Users\\Administrator\\Desktop\\countTest\\count", band);
+
+
+
 		ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
 		short[][] img = shortImage.getBand1InShorts();
 		System.out.println(img);

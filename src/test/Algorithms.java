@@ -140,7 +140,8 @@ public class Algorithms
 
 	public static void main(String[] args) throws IOException
 	{
-		ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
+//		ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
+		ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 		short[][] img = shortImage.getBand1InShorts();
 		int count = connectedDomainCount(img);
 		System.out.println(count);
