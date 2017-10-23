@@ -230,8 +230,8 @@ public class Algorithms
     public static void main(String[] args) throws IOException
     {
 //        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
+//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
+        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 //        short[][] img = shortImage.getBand1InShorts();
 //        short[][] img1 = thresholding(shortImage,232);
 //        int count1 = connectedDomainCount(img1);
