@@ -202,7 +202,7 @@ public class Algorithms
      * @param img 经过cutAndMinus处理过的ShortImage对象<br>减小min或增大max会增加预测范围 但会增加性能开支
      * @param min 阈值推测的最低值
      * @param max 阈值推测的最大值
-     * @return 推测出的阈值
+     * @return int 推测出的阈值
      * @throws IOException
      */
     public static int getThreshold(ShortImage img, int min, int max) throws IOException
