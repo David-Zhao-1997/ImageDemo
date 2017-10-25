@@ -242,7 +242,7 @@ public class Algorithms
 //        short[][] img3 = thresholding(shortImage,240);
 //        int count3 = connectedDomainCount(img3);
 //        System.out.println(count3);jk
-        int threshold = getThreshold(shortImage, 220, 260);
+        int threshold = Algorithms.getThreshold(shortImage, 220, 260);
         System.out.println(threshold);
     }
 }

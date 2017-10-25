@@ -13,8 +13,8 @@ import java.io.IOException;
  */
 public class EnviImage
 {
-	protected int samples;
-	protected int lines;
+	protected int samples;//列序号
+	protected int lines;//行序号
 	protected double Lon;
 	protected double Lat;
 	protected double deltaLon;
