@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 
 import utils.Pair;
 import utils.ShortImage;
@@ -164,7 +165,7 @@ public class Algorithms
                 }
             }
         }
-//        ShortImage.saveBandsToFile("C:\\1619",image);
+//        ShortImage.saveBandsToFile("C:\\1619", image);
         return image;
     }
 
@@ -229,9 +230,6 @@ public class Algorithms
 
     public static void main(String[] args) throws IOException
     {
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
-        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 //        short[][] img = shortImage.getBand1InShorts();
 //        short[][] img1 = thresholding(shortImage,232);
 //        int count1 = connectedDomainCount(img1);
@@ -241,8 +239,29 @@ public class Algorithms
 //        System.out.println(count2);
 //        short[][] img3 = thresholding(shortImage,240);
 //        int count3 = connectedDomainCount(img3);
-//        System.out.println(count3);jk
-        int threshold = Algorithms.getThreshold(shortImage, 220, 260);
-        System.out.println(threshold);
+//        System.out.println(count3);
+//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
+        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
+//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
+        for (int i = 5; i < 468; i++)
+        {
+            ShortImage sImg = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
+            try
+            {
+                int threshold = getThreshold(sImg, 0, 300);
+                System.out.print("" + i+"---");
+                System.out.print("" + sImg.getMax());
+                System.out.print(" " + sImg.getMin());
+                System.out.print(" " + sImg.getAvg());
+                System.out.print(" " + sImg.getVariance());
+                System.out.println(" " + threshold);
+            }
+            catch (NoSuchElementException e)
+            {
+                //检测不到浒苔
+//                System.out.println();
+            }
+//            System.out.println();
+        }
     }
 }
