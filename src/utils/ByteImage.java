@@ -43,6 +43,7 @@ public class ByteImage extends EnviImage
      */
     public byte[][] getBandInBytes(int x) throws IOException
     {
+        getInputStream();
         byte[][] band = null;
         switch (x)
         {

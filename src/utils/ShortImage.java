@@ -24,34 +24,26 @@ public class ShortImage extends EnviImage
     private short[][] b2;
     private short[][] b3;
     private short[][] b4;
+    Object[] band = {band1, band2, band3, band4};
+    Object[] b = {b1, b2, b3, b4};
 
-    private int max = 0;
-    private int min = 255;
-    private double avg = -1;
-    private double variance;
+    //    private int max = 0;
+//    private int min = 255;
+    private static boolean flag = false;
+    private double avg[] = {-1, -1, -1, -1};
+    private double variance[] = new double[4];
 
-    public double getMax() throws IOException
+
+    public double getAvg(int x) throws IOException
     {
         getInfo();
-        return max;
+        return avg[x - 1];
     }
 
-    public double getMin() throws IOException
+    public double getVariance(int x) throws IOException
     {
         getInfo();
-        return min;
-    }
-
-    public double getAvg() throws IOException
-    {
-        getInfo();
-        return avg;
-    }
-
-    public double getVariance() throws IOException
-    {
-        getInfo();
-        return variance;
+        return variance[x - 1];
     }
 
 
@@ -62,42 +54,39 @@ public class ShortImage extends EnviImage
 
     private void getInfo() throws IOException
     {
-        if (avg < 0)
+        if (flag == false)
         {
-            int sum_Value = 0;
-            double nXVariance = 0;
-            short[][] image = this.getBand1InShorts();
-            int samples = this.getSamples();
-            int lines = this.getLines();
-            for (int i = 0; i < lines; i++)
+            for (int x = 0; x <= 3; x++)
             {
-                for (int j = 0; j < samples; j++)
+                int sum_Value = 0;
+                double nXVariance = 0;
+                short[][] image = this.getBandInShorts(x + 1);
+                int samples = this.getSamples();
+                int lines = this.getLines();
+                for (int i = 0; i < lines; i++)
                 {
-                    sum_Value += image[i][j];
-                    if (image[i][j] > max)
+                    for (int j = 0; j < samples; j++)
                     {
-                        max = image[i][j];
-                    }
-                    if (image[i][j] < min)
-                    {
-                        min = image[i][j];
+                        sum_Value += image[i][j];
                     }
                 }
-            }
-            avg = sum_Value / (samples * lines);
-            for (int i = 0; i < lines; i++)
-            {
-                for (int j = 0; j < samples; j++)
+                avg[x] = sum_Value / (samples * lines);
+                for (int i = 0; i < lines; i++)
                 {
-                    nXVariance += (image[i][j] - avg) * (image[i][j] - avg);
+                    for (int j = 0; j < samples; j++)
+                    {
+                        nXVariance += (image[i][j] - avg[x]) * (image[i][j] - avg[x]);
+                    }
                 }
+                variance[x] = nXVariance / samples / lines;
             }
-            variance = nXVariance / samples / lines;
+            flag = true;
         }
     }
 
     public short[][] getBandInShorts(int x) throws IOException
     {
+        getInputStream();
         short[][] b = null;
         byte[][] band = null;
         switch (x)
@@ -118,6 +107,12 @@ public class ShortImage extends EnviImage
                 b = b4;
                 band = band4;
                 break;
+        }
+        bis = new BufferedInputStream(new FileInputStream(path));
+        for (int i = 1; i < x; i++)
+        {
+            bis.skip(samples * lines);
+            bis.skip(samples * lines);
         }
         if (b == null)
         {
@@ -159,6 +154,8 @@ public class ShortImage extends EnviImage
     public short[][] getBand2InShorts() throws IOException
     {
         bis = new BufferedInputStream(new FileInputStream(path));
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
         if (b2 == null)
         {
             b2 = new short[lines][samples];
@@ -179,6 +176,10 @@ public class ShortImage extends EnviImage
     public short[][] getBand3InShorts() throws IOException
     {
         bis = new BufferedInputStream(new FileInputStream(path));
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
         if (b3 == null)
         {
             b3 = new short[lines][samples];
@@ -199,6 +200,12 @@ public class ShortImage extends EnviImage
     public short[][] getBand4InShorts() throws IOException
     {
         bis = new BufferedInputStream(new FileInputStream(path));
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
+        bis.skip(samples * lines);
         if (b4 == null)
         {
             b4 = new short[lines][samples];
@@ -258,4 +265,12 @@ public class ShortImage extends EnviImage
         }
     }
 
+    public static void main(String[] args) throws IOException
+    {
+        ShortImage shortImage = new ShortImage("C:\\4BandsOut\\4-Bands-_87");
+        System.out.println(shortImage.getAvg(1));
+        System.out.println(shortImage.getAvg(2));
+        System.out.println(shortImage.getAvg(3));
+        System.out.println(shortImage.getAvg(4));
+    }
 }

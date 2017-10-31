@@ -18,11 +18,17 @@ public class ImageCutter
 
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
+//		int width = 300; // 切割出的子图片的宽度
+//		int height = 300; // 切割出的子图片的高度
+//		String inputFilePath = "C:\\res";
+//		String outputFilePath = "D:\\HJ\\out";
+//		cutAndMinus(width, height, inputFilePath, outputFilePath);
+
 		int width = 300; // 切割出的子图片的宽度
 		int height = 300; // 切割出的子图片的高度
-		String inputFilePath = "C:\\res";
-		String outputFilePath = "D:\\HJ\\out";
-		cutAndMinus(width, height, inputFilePath, outputFilePath);
+		String inputFilePath = "C:\\111";
+		String outputFilePath = "C:\\4BandsOut\\4-Bands-";
+		cut(width, height, inputFilePath, outputFilePath);
 	}
 
 	/**

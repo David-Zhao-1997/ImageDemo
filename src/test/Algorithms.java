@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 
 import utils.Pair;
 import utils.ShortImage;
@@ -27,20 +26,20 @@ public class Algorithms
     /**
      * Run 团
      */
-    private static final class Run
+    public static final class Run
     {
         ArrayList<Integer> stRun = new ArrayList<>();//团的起点
         ArrayList<Integer> rowRun = new ArrayList<>();//团的行数
         ArrayList<Integer> enRun = new ArrayList<>();//团的终点
     }
 
-    private static final class FirstPassOutput
+    public static final class FirstPassOutput
     {
         ArrayList<Integer> runLabels = new ArrayList<>();
         HashSet<Pair<Integer, Integer>> equivalences = new HashSet<>();
     }
 
-    private static Run fillRunVectors(short[][] arr)
+    public static Run fillRunVectors(short[][] arr)
     {
         Run run = new Run();
         for (int i = 0; i < arr.length; i++)
@@ -70,7 +69,7 @@ public class Algorithms
         return run;
     }
 
-    private static FirstPassOutput firstPass(Run run, int offset)
+    public static FirstPassOutput firstPass(Run run, int offset)
     {
         FirstPassOutput fpo = new FirstPassOutput();
         HashSet<Pair<Integer, Integer>> equivalences = fpo.equivalences;
@@ -109,6 +108,7 @@ public class Algorithms
                     }
                     else if (runLabels.get(i) != runLabels.get(j))//已经被标号 //noinspection NumberEquality
                     {
+//                        System.out.println(runLabels.get(i)+"---"+runLabels.get(j));
                         equivalences.add(Pair.create(runLabels.get(i), runLabels.get(j)));//保存等价对
                     }
                 }
@@ -146,7 +146,7 @@ public class Algorithms
         return getRegionCount(fpo);
     }
 
-    private static short[][] binaryProcess(ShortImage img, int threshold) throws IOException
+    public static short[][] binaryProcess(ShortImage img, int threshold) throws IOException
     {
         short[][] image = img.getBand1InShorts();
         int samples = img.getSamples();
@@ -165,6 +165,11 @@ public class Algorithms
                 }
             }
         }
+        Run r = fillRunVectors(image);
+        System.out.println("stRun:" + r.stRun);
+        System.out.println("enRun:" + r.enRun);
+        System.out.println("rowRun:" + r.rowRun);
+
 //        ShortImage.saveBandsToFile("C:\\1619", image);
         return image;
     }
@@ -242,26 +247,28 @@ public class Algorithms
 //        System.out.println(count3);
 //        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
         ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
+        int threshold = getThreshold(shortImage, 220, 250);
+        System.out.println(threshold);
 //        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
-        for (int i = 5; i < 468; i++)
-        {
-            ShortImage sImg = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
-            try
-            {
-                int threshold = getThreshold(sImg, 0, 300);
-                System.out.print("" + i+"---");
-                System.out.print("" + sImg.getMax());
-                System.out.print(" " + sImg.getMin());
-                System.out.print(" " + sImg.getAvg());
-                System.out.print(" " + sImg.getVariance());
-                System.out.println(" " + threshold);
-            }
-            catch (NoSuchElementException e)
-            {
-                //检测不到浒苔
-//                System.out.println();
-            }
+//        for (int i = 5; i < 468; i++)
+//        {
+//            ShortImage sImg = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
+//            try
+//            {
+//                int threshold = getThreshold(sImg, 0, 300);
+//                System.out.print("" + i+"---");
+//                System.out.print("" + sImg.getMax());
+//                System.out.print(" " + sImg.getMin());
+//                System.out.print(" " + sImg.getAvg());
+//                System.out.print(" " + sImg.getVariance());
+//                System.out.println(" " + threshold);
+//            }
+//            catch (NoSuchElementException e)
+//            {
+//                //检测不到浒苔
+////                System.out.println();
+//            }
 //            System.out.println();
-        }
     }
+
 }
