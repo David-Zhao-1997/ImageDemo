@@ -52,6 +52,6 @@ public class Algorithm_Connected_Region
             }
             System.out.println();
         }
-        System.out.println(out.data_out_vector.get(205));
+        System.out.println(out.data_out_vector.get(1));
     }
 }

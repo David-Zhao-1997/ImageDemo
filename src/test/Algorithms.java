@@ -404,6 +404,14 @@ public class Algorithms
         return output_data;
     }
 
+    /**
+     * 比较两幅图像的cosine相似度
+     *
+     * @param img1 ShortImage
+     * @param img2 ShortImage
+     * @return double 0-1 之间的数值 0代表正交 1代表相等 -1代表反向
+     * @throws IOException
+     */
     public static double calculateCosSimilarity(ShortImage img1, ShortImage img2) throws IOException
     {
 //        System.out.println(img1.getAvg(1));
@@ -419,10 +427,29 @@ public class Algorithms
         {
             dotProduct += (img1.getAvg(i) * img2.getAvg(i));
         }
-        System.out.println(dotProduct);
-        double divisor = Math.sqrt(img1.getAvg(1) * img1.getAvg(1) + img1.getAvg(2) * img1.getAvg(2) + img1.getAvg(3) * img1.getAvg(3) + img1.getAvg(4) * img1.getAvg(4)) * Math.sqrt(img2.getAvg(1)*img2.getAvg(1) + img2.getAvg(2)*img2.getAvg(2) + img2.getAvg(3)*img2.getAvg(3) + img2.getAvg(4)*img2.getAvg(4));
-        System.out.println(divisor);
+        double divisor = Math.sqrt(img1.getAvg(1) * img1.getAvg(1) + img1.getAvg(2) * img1.getAvg(2) + img1.getAvg(3) * img1.getAvg(3) + img1.getAvg(4) * img1.getAvg(4)) * Math.sqrt(img2.getAvg(1) * img2.getAvg(1) + img2.getAvg(2) * img2.getAvg(2) + img2.getAvg(3) * img2.getAvg(3) + img2.getAvg(4) * img2.getAvg(4));
         return dotProduct / divisor;
+    }
+
+    public static double calculateCosSimilarity(double[] img1, double[] img2)
+    {
+        double dotProduct = 0;
+        for (int i = 0; i < img1.length; i++)
+        {
+            dotProduct += (img1[i] * img2[i]);
+        }
+        double divisor1 = 0;
+        double divisor2 = 0;
+
+        for (int i = 0; i < img1.length; i++)
+        {
+            divisor1 += img1[i] * img1[i];
+            divisor2 += img2[i] * img2[i];
+        }
+
+        divisor1 = Math.sqrt(divisor1);
+        divisor2 = Math.sqrt(divisor2);
+        return dotProduct / (divisor1 * divisor2);
     }
 
 
@@ -430,8 +457,15 @@ public class Algorithms
     {
         ShortImage shortImage1 = new ShortImage("C:\\4BandsOut\\4-Bands-_88");
         ShortImage shortImage2 = new ShortImage("C:\\4BandsOut\\4-Bands-_89");
+
+
+        double[] img88 = {82,80,107,81};
+        double[] img89 = {89,89,118,91};
+        double sim = calculateCosSimilarity(img88,img89);
+        System.out.println(sim * 100000 - 99900);
+
         double similarity = calculateCosSimilarity(shortImage1, shortImage2);
-        System.out.println(similarity*100000-99900);
+        System.out.println(similarity * 100000 - 99900);
 //        short[][] img = shortImage.getBand1InShorts();
 //        short[][] img1 = thresholding(shortImage,232);
 //        int count1 = connectedDomainCount(img1);
