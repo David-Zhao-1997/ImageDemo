@@ -414,21 +414,23 @@ public class Algorithms
      */
     public static double calculateCosSimilarity(ShortImage img1, ShortImage img2) throws IOException
     {
-//        System.out.println(img1.getAvg(1));
-//        System.out.println(img1.getAvg(2));
-//        System.out.println(img1.getAvg(3));
-//        System.out.println(img1.getAvg(4));
-//        System.out.println(img2.getAvg(1));
-//        System.out.println(img2.getAvg(2));
-//        System.out.println(img2.getAvg(3));
-//        System.out.println(img2.getAvg(4));
         double dotProduct = 0;
         for (int i = 1; i <= 4; i++)
         {
             dotProduct += (img1.getAvg(i) * img2.getAvg(i));
         }
-        double divisor = Math.sqrt(img1.getAvg(1) * img1.getAvg(1) + img1.getAvg(2) * img1.getAvg(2) + img1.getAvg(3) * img1.getAvg(3) + img1.getAvg(4) * img1.getAvg(4)) * Math.sqrt(img2.getAvg(1) * img2.getAvg(1) + img2.getAvg(2) * img2.getAvg(2) + img2.getAvg(3) * img2.getAvg(3) + img2.getAvg(4) * img2.getAvg(4));
-        return dotProduct / divisor;
+        double divisor1 = 0;
+        double divisor2 = 0;
+
+        for (int i = 1; i <= 4; i++)
+        {
+            divisor1 += img1.getAvg(i) * img1.getAvg(i);
+            divisor2 += img2.getAvg(i) * img2.getAvg(i);
+        }
+
+        divisor1 = Math.sqrt(divisor1);
+        divisor2 = Math.sqrt(divisor2);
+        return dotProduct / (divisor1 * divisor2);
     }
 
     public static double calculateCosSimilarity(double[] img1, double[] img2)
@@ -459,9 +461,9 @@ public class Algorithms
         ShortImage shortImage2 = new ShortImage("C:\\4BandsOut\\4-Bands-_89");
 
 
-        double[] img88 = {82,80,107,81};
-        double[] img89 = {89,89,118,91};
-        double sim = calculateCosSimilarity(img88,img89);
+        double[] img88 = {82, 80, 107, 81};
+        double[] img89 = {89, 89, 118, 91};
+        double sim = calculateCosSimilarity(img88, img89);
         System.out.println(sim * 100000 - 99900);
 
         double similarity = calculateCosSimilarity(shortImage1, shortImage2);
