@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Vector;
 
 import utils.Pair;
 import utils.ShortImage;
@@ -15,6 +17,7 @@ import utils.ShortImage;
  *
  * @see Algorithms#connectedDomainCount(short[][])
  */
+@SuppressWarnings("All")
 public class Algorithms
 {
 
@@ -37,6 +40,25 @@ public class Algorithms
     {
         ArrayList<Integer> runLabels = new ArrayList<>();
         HashSet<Pair<Integer, Integer>> equivalences = new HashSet<>();
+    }
+
+
+    public static class Output_Data
+    {
+        int[][] save_Data;
+        Vector<Vector> data_out_vector = new Vector<>();
+
+        /**
+         * @author Henry
+         * 封装输出信息
+         */
+        public Output_Data()
+        {
+            for (int i = 0; i < 305; i++)
+            {
+                data_out_vector.add(new Vector<Pair<Integer, Integer>>());
+            }
+        }
     }
 
     public static Run fillRunVectors(short[][] arr)
@@ -166,9 +188,9 @@ public class Algorithms
             }
         }
         Run r = fillRunVectors(image);
-        System.out.println("stRun:" + r.stRun);
-        System.out.println("enRun:" + r.enRun);
-        System.out.println("rowRun:" + r.rowRun);
+//        System.out.println("stRun:" + r.stRun);
+//        System.out.println("enRun:" + r.enRun);
+//        System.out.println("rowRun:" + r.rowRun);
 
 //        ShortImage.saveBandsToFile("C:\\1619", image);
         return image;
@@ -233,8 +255,183 @@ public class Algorithms
         return min + maxCountIndex + minIndex - 1;
     }
 
+    /**
+     * @param arrayList
+     * @return
+     * @author Henry
+     */
+    public static int Find_Max_In_Array(ArrayList<Integer> arrayList)
+    {
+        int Max_Integer = -99999;
+        for (int i = 0; i < arrayList.size(); i++)
+        {
+            if (arrayList.get(i) > Max_Integer)
+            {
+                Max_Integer = arrayList.get(i);
+            }
+        }
+        return Max_Integer;
+    }
+
+    /**
+     * 合并等价对,变成一个vector<int>,其中数据全部等价
+     *
+     * @param fpo FirstPassOutput类的对象
+     * @return
+     * @author Henry
+     * @see FirstPassOutput
+     */
+    public static FirstPassOutput replaceSameLabel(FirstPassOutput fpo)
+    {
+        int maxLabel = Find_Max_In_Array(fpo.runLabels);
+        Vector<Vector> eqTab = new Vector();
+        for (int i = 0; i < maxLabel; i++)
+        {
+            Vector<Boolean> in = new Vector<Boolean>();
+            for (int j = 0; j < maxLabel; j++)
+            {
+                in.add(j, false);
+            }
+            eqTab.add(i, in);
+        }
+
+        for (Iterator it = fpo.equivalences.iterator(); it.hasNext(); )
+        {
+            Pair pair = (Pair) it.next();
+            Integer first = (Integer) pair.getFirst();
+            Integer second = (Integer) pair.getSecond();
+            eqTab.get(first - 1).set(second - 1, true);
+            eqTab.get(second - 1).set(first - 1, true);
+        }
+
+
+        Vector<Integer> labelFlag = new Vector<>();
+        for (int i = 0; i < maxLabel; i++)
+        {
+            labelFlag.add(i, 0);
+        }
+
+        Vector<Vector> equaList = new Vector();//储存等价链
+        Vector<Integer> tempList = new Vector<>();
+
+        int cnt = 1;
+        for (int i = 1; i <= maxLabel; i++)
+        {
+            if (!labelFlag.get(i - 1).equals(0))
+            {
+                continue;
+            }
+            labelFlag.set(i - 1, equaList.size() + 1);//equaList.size()就是现有等价链的条数
+            tempList.add(i);
+            for (int j = 0; j < tempList.size(); j++)
+            {
+                for (int k = 0; k != eqTab.get(tempList.get(j) - 1).size(); k++)
+                {
+                    if (eqTab.get(tempList.get(j) - 1).get(k).equals(true) && labelFlag.get(k).equals(0))
+                    {
+                        tempList.add(k + 1);
+                        labelFlag.set(k, equaList.size() + 1);
+                    }
+                }
+            }
+
+            Vector<Integer> newtemp = new Vector<>();
+            for (int m = 0; m < tempList.size(); m++)
+            {
+                newtemp.add(tempList.get(m));
+            }
+            equaList.add(newtemp);
+            tempList.clear();
+        }
+        for (int i = 0; i != fpo.runLabels.size(); i++)
+        {
+            Integer in = labelFlag.get(fpo.runLabels.get(i) - 1);
+            fpo.runLabels.set(i, in);
+        }
+        return fpo;
+    }
+
+    public static Output_Data Just_Print_Start_End(ShortImage img, int threshold, FirstPassOutput fpo2) throws IOException
+    {
+        Output_Data output_data = new Output_Data();
+        Vector<Vector> new_v = new Vector<>();
+        short[][] image = img.getBand1InShorts();
+        int samples = img.getSamples();
+        int lines = img.getLines();
+        for (int i = 0; i < lines; i++)
+        {
+            for (int j = 0; j < samples; j++)
+            {
+                if (image[i][j] < threshold)
+                {
+                    image[i][j] = 0;
+                }
+                else
+                {
+                    image[i][j] = 255;
+                }
+            }
+        }
+
+        Run r = fillRunVectors(image);
+        int max_x = Find_Max_In_Array(r.stRun);
+        int max_y = Find_Max_In_Array(r.enRun);
+        int max_in = Integer.max(max_x, max_y);
+        int max_row = Find_Max_In_Array(r.rowRun);
+//        System.out.println(max_x+" "+max_y+" "+max_row);
+
+        int[][] save_Data = new int[max_row + 5][max_in + 5];
+
+        for (int i = 0; i < r.rowRun.size(); i++)
+        {
+            int start = r.stRun.get(i);
+            int end = r.enRun.get(i);
+            int row = r.rowRun.get(i);
+            int f = fpo2.runLabels.get(i);
+            for (int j = start; j <= end; j++)
+            {
+//                System.out.println(row+" "+j);
+                save_Data[row][j] = f;
+                Pair<Integer, Integer> inin = Pair.create(row, j);
+                output_data.data_out_vector.get(f).add(inin);
+            }
+        }
+
+        System.out.println("stRun:" + r.stRun);
+        System.out.println("enRun:" + r.enRun);
+        System.out.println("rowRun:" + r.rowRun);
+        output_data.save_Data = save_Data;
+        return output_data;
+    }
+
+    public static double calculateCosSimilarity(ShortImage img1, ShortImage img2) throws IOException
+    {
+//        System.out.println(img1.getAvg(1));
+//        System.out.println(img1.getAvg(2));
+//        System.out.println(img1.getAvg(3));
+//        System.out.println(img1.getAvg(4));
+//        System.out.println(img2.getAvg(1));
+//        System.out.println(img2.getAvg(2));
+//        System.out.println(img2.getAvg(3));
+//        System.out.println(img2.getAvg(4));
+        double dotProduct = 0;
+        for (int i = 1; i <= 4; i++)
+        {
+            dotProduct += (img1.getAvg(i) * img2.getAvg(i));
+        }
+        System.out.println(dotProduct);
+        double divisor = Math.sqrt(img1.getAvg(1) * img1.getAvg(1) + img1.getAvg(2) * img1.getAvg(2) + img1.getAvg(3) * img1.getAvg(3) + img1.getAvg(4) * img1.getAvg(4)) * Math.sqrt(img2.getAvg(1)*img2.getAvg(1) + img2.getAvg(2)*img2.getAvg(2) + img2.getAvg(3)*img2.getAvg(3) + img2.getAvg(4)*img2.getAvg(4));
+        System.out.println(divisor);
+        return dotProduct / divisor;
+    }
+
+
     public static void main(String[] args) throws IOException
     {
+        ShortImage shortImage1 = new ShortImage("C:\\4BandsOut\\4-Bands-_88");
+        ShortImage shortImage2 = new ShortImage("C:\\4BandsOut\\4-Bands-_89");
+        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
+        System.out.println(similarity*100000-99900);
 //        short[][] img = shortImage.getBand1InShorts();
 //        short[][] img1 = thresholding(shortImage,232);
 //        int count1 = connectedDomainCount(img1);
@@ -246,9 +443,9 @@ public class Algorithms
 //        int count3 = connectedDomainCount(img3);
 //        System.out.println(count3);
 //        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
-        int threshold = getThreshold(shortImage, 220, 250);
-        System.out.println(threshold);
+//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
+//        int threshold = getThreshold(shortImage, 220, 250);
+//        System.out.println(threshold);
 //        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 //        for (int i = 5; i < 468; i++)
 //        {

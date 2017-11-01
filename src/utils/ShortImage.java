@@ -29,7 +29,7 @@ public class ShortImage extends EnviImage
 
     //    private int max = 0;
 //    private int min = 255;
-    private static boolean flag = false;
+    private boolean flag = false;
     private double avg[] = {-1, -1, -1, -1};
     private double variance[] = new double[4];
 
