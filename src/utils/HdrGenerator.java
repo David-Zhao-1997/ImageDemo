@@ -58,4 +58,34 @@ public class HdrGenerator
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 重载提供自定义lines samples的generate()
+	 * @param enviImage
+	 * @param filename
+	 * @param ystart
+	 * @param xstart
+	 * @param bands
+	 * @param lines
+	 * @param samples
+	 */
+	public static void generate(EnviImage enviImage, String filename, int ystart, int xstart, int bands, int lines, int samples)
+	{
+		String s1 = "ENVI\ndescription = {\nFile Resize Result, x resize factor: 1.000000, y resize factor: 1.000000.\n[Tue Apr 25 18:45:30 2017]}\n";
+		String s2 = "samples = " + samples + "\nlines = " + lines + "\nbands= " + bands + "\n";
+		String s3 = "header offset = 0\nfile type = ENVI Standard\ndata type = 2\ninterleave = bsq\nsensor type = Unknown\nbyte order = 1\n";
+		String s4 = "x start= " + (xstart + 1) + "\ny start= " + (ystart + 1) + "\n";
+		String s5 = "map info = {Geographic Lat/Lon, 1.0000, 1.0000," + (enviImage.getLon() + xstart * enviImage.getDeltaLon() + ",") + (enviImage.getLat() - ystart * enviImage.getDeltaLat() + ",") + enviImage.getDeltaLon() + "," + enviImage.getDeltaLat() + ",WGS-84, units=Degrees}";
+		try
+		{
+			BufferedWriter bos = new BufferedWriter(new FileWriter(filename));
+			bos.write(s1 + s2 + s3 + s4 + s5);
+			bos.flush();
+			bos.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

@@ -24,10 +24,10 @@ public class ImageCutter
 //		String outputFilePath = "D:\\HJ\\out";
 //		cutAndMinus(width, height, inputFilePath, outputFilePath);
 
-		int width = 300; // 切割出的子图片的宽度
-		int height = 300; // 切割出的子图片的高度
-		String inputFilePath = "C:\\111";
-		String outputFilePath = "C:\\4BandsOut\\4-Bands-";
+		int width = 1600; // 切割出的子图片的宽度
+		int height = 800; // 切割出的子图片的高度
+		String inputFilePath = "I:\\111";
+		String outputFilePath = "C:\\Users\\Inku\\Desktop\\out\\out-";
 		cut(width, height, inputFilePath, outputFilePath);
 	}
 
@@ -69,9 +69,9 @@ public class ImageCutter
 				short[][] output2 = new short[height][width];// 暂存要输出的子图片的band2信息
 				short[][] output3 = new short[height][width];// 暂存要输出的子图片的band3信息
 				short[][] output4 = new short[height][width];// 暂存要输出的子图片的band4信息
-				for (i = 0; i < 300; i++)
+				for (i = 0; i < height; i++)
 				{
-					for (j = 0; j < 300; j++)
+					for (j = 0; j < width; j++)
 					{
 						output1[i][j] = b1[i + y][j + x];
 						output2[i][j] = b2[i + y][j + x];
@@ -90,13 +90,13 @@ public class ImageCutter
 					ShortImage.addBandToFile(output2, fName);
 					ShortImage.addBandToFile(output3, fName);
 					ShortImage.addBandToFile(output4, fName);
-					HdrGenerator.generate(image, fName + ".hdr", y, x, 4);
+					HdrGenerator.generate(image, fName + ".hdr", y, x, 4, height, width);
 					cnt++;
 				}
-				x += 300;
+				x += width;
 				flag = false;
 			}
-			y += 300;
+			y += height;
 		}
 	}
 
