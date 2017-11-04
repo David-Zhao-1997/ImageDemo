@@ -88,7 +88,6 @@ public class ImagePanel extends JPanel {
 			short[][] green = image.getBandInShorts(bandG);
 			short[][] blue = image.getBandInShorts(bandB);
 			for (int w = 0; w < imageWidth; w++) {
-
 				for (int h = 0; h < imageHeight; h++) {
 					// 0xRRGGBB <- 24bits  R|G|B  24|16|8
 					int rgb = ((int) (red[h][w] & 0xff) << 16) | ((int) (green[h][w] & 0xff) << 8) | ((int) (blue[h][w] & 0xff));

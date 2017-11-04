@@ -26,8 +26,8 @@ public class ImageCutter
 
 		int width = 1600; // 切割出的子图片的宽度
 		int height = 800; // 切割出的子图片的高度
-		String inputFilePath = "I:\\111";
-		String outputFilePath = "C:\\Users\\Inku\\Desktop\\out\\out-";
+		String inputFilePath = "D:\\Documents\\宣墨白\\intell\\111";
+		String outputFilePath = "D:\\Documents\\宣墨白\\intell\\out\\out-";
 		cut(width, height, inputFilePath, outputFilePath);
 	}
 
