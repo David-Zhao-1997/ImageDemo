@@ -1,22 +1,24 @@
 package graphics.ui;
 
-import utils.ByteImage;
 import utils.ShortImage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
 public class ImageDisplayWindow extends JFrame {
 
+	//Components
 	private JPanel jPanel;
-	//	private JButton exitButton;
 	private ImagePanel imagePanel;
-	ShortImage shortImage;
-	int bandR, bandG, bandB;
+	private JButton viewPosButton;
 
-	int scrollIncrement = 2;
+	//Members
+	private ShortImage shortImage;
+
+	//Parameters
+	private int bandR, bandG, bandB;
+	private int scrollIncrement = 2;
 
 	public ImageDisplayWindow(ImagePanel imagePanel) {
 		try {
@@ -32,7 +34,6 @@ public class ImageDisplayWindow extends JFrame {
 		}
 
 	}
-
 
 	public ImageDisplayWindow(ShortImage shortImage, int bandR, int bandG, int bandB) {
 		this.shortImage = shortImage;
@@ -53,6 +54,14 @@ public class ImageDisplayWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * 等价于ImageDisplayWindow(image, 1, 1, 1)
+	 * @param image
+	 */
+	public ImageDisplayWindow(ShortImage image){
+		this(image, 1, 1, 1);
+	}
+
 	private void initUI() {
 		//init frame
 		this.setTitle("View image - F1 for help");
@@ -61,6 +70,11 @@ public class ImageDisplayWindow extends JFrame {
 		setContentPane(jPanel);
 		this.jPanel.setLayout(null);
 		this.setBounds(100, 100, imagePanel.getImageWidth(), imagePanel.getImageHeight());
+
+		//widgets
+		this.viewPosButton = new JButton("View Pos");
+		viewPosButton.setBounds(3, 3, 100, 20);
+//		this.add(viewPosButton);
 
 		//show image
 		this.imagePanel = imagePanel;
@@ -97,7 +111,6 @@ public class ImageDisplayWindow extends JFrame {
 			int y;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				//获取imagePanel的绝对坐标，加上鼠标的相对坐标
 				x = e.getXOnScreen();
 				y = e.getYOnScreen();
 //				x = e.getX() + imagePanel.getX();
@@ -123,36 +136,9 @@ public class ImageDisplayWindow extends JFrame {
 		};
 		imagePanel.addMouseListener(dragAdapter);
 		imagePanel.addMouseMotionListener(dragAdapter);
+		viewPosButton.addActionListener((e)->{
+		});
 	}
-
-	/**
-	 *
-	 */
-	public void fuck() {
-		imagePanel = null;
-		try {
-			ImagePanel imagePanel = new ImagePanel(shortImage, bandR, bandG, bandB);
-			if (imagePanel.getImageWidth() >= 1850 || imagePanel.getImageHeight() > 1065) {
-				throw new ImageTooLargeException();
-			}
-
-			//init frame
-			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			setBounds(100, 100, 500, 600);
-			this.jPanel = new JPanel();
-			setContentPane(jPanel);
-			this.jPanel.setLayout(null);
-
-			//show image
-			this.imagePanel = imagePanel;
-			imagePanel.setLocation(0, 0);
-			this.add(imagePanel);
-		} catch (IOException | ImageTooLargeException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(ImageDisplayWindow.this, e.getMessage(), e.toString(), JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
 
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
@@ -162,7 +148,7 @@ public class ImageDisplayWindow extends JFrame {
 			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
 			frame.setVisible(true);
 //			for(int i = 0; i < 49; i++) {
-//				frame.fuck();
+//				frame.redrawImagePanel();
 //			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -188,4 +174,12 @@ public class ImageDisplayWindow extends JFrame {
 
 	}
 
+	static {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
