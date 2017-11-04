@@ -98,9 +98,11 @@ public class ImageDisplayWindow extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				//获取imagePanel的绝对坐标，加上鼠标的相对坐标
-				x = e.getX() + imagePanel.getX();
-				y = e.getY() + imagePanel.getY();
-				System.out.println("get xy " + x + " " + y);
+				x = e.getXOnScreen();
+				y = e.getYOnScreen();
+//				x = e.getX() + imagePanel.getX();
+//				y = e.getY() + imagePanel.getY();
+//				System.out.println("get xy " + x + " " + y);
 			}
 
 			@Override
@@ -109,12 +111,14 @@ public class ImageDisplayWindow extends JFrame {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				int incrementX = e.getX() + imagePanel.getX() - x;
-				int incrementY = e.getY() + imagePanel.getY() - y;
-				x = e.getX() + imagePanel.getX();
-				y = e.getY() + imagePanel.getY();
+				int incrementX = e.getXOnScreen() - x;
+				int incrementY = e.getYOnScreen() - y;
+				x = e.getXOnScreen();
+				y = e.getYOnScreen();
+//				x = e.getX() + imagePanel.getX();
+//				y = e.getY() + imagePanel.getY();
 				imagePanel.setLocation(imagePanel.getX() + incrementX, imagePanel.getY() + incrementY);
-				System.out.println("Dragged get xy " + x + " " + y);
+//				System.out.println("Dragged get xy " + x + " " + y);
 			}
 		};
 		imagePanel.addMouseListener(dragAdapter);
