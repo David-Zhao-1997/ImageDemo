@@ -29,8 +29,8 @@ public class ByteImage extends EnviImage
     private short[][] b2;
     private short[][] b3;
     private short[][] b4;
-    Object[] band = {band1, band2, band3, band4};
-    Object[] b = {b1, b2, b3, b4};
+    private Object[] band = {band1, band2, band3, band4};
+    private Object[] b = {b1, b2, b3, b4};
 
     /**
      * 请不要调用本方法 <br>

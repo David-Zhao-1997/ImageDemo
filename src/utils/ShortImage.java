@@ -24,8 +24,8 @@ public class ShortImage extends EnviImage
     private short[][] b2;
     private short[][] b3;
     private short[][] b4;
-    Object[] band = {band1, band2, band3, band4};
-    Object[] b = {b1, b2, b3, b4};
+    private Object[] band = {band1, band2, band3, band4};
+    private Object[] b = {b1, b2, b3, b4};
 
     //    private int max = 0;
 //    private int min = 255;
@@ -33,6 +33,20 @@ public class ShortImage extends EnviImage
     private double avg[] = {-1, -1, -1, -1};
     private double variance[] = new double[4];
 
+    public ShortImage(String filename) throws IOException
+    {
+        super(filename);
+    }
+
+    public ShortImage toSingleBand(short[][] band)
+    {
+        b1 = band;
+        for (int i = 1; i < b.length; i++)
+        {
+            b[i] = null;
+        }
+        return this;
+    }
 
     public double getAvg(int x) throws IOException
     {
@@ -46,11 +60,6 @@ public class ShortImage extends EnviImage
         return variance[x - 1];
     }
 
-
-    public ShortImage(String filename) throws IOException
-    {
-        super(filename);
-    }
 
     private void getInfo() throws IOException
     {
@@ -272,5 +281,9 @@ public class ShortImage extends EnviImage
         System.out.println(shortImage.getAvg(2));
         System.out.println(shortImage.getAvg(3));
         System.out.println(shortImage.getAvg(4));
+        System.out.println(shortImage.getVariance(1));
+        System.out.println(shortImage.getVariance(2));
+        System.out.println(shortImage.getVariance(3));
+        System.out.println(shortImage.getVariance(4));
     }
 }

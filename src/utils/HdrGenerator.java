@@ -10,6 +10,7 @@ import java.nio.file.Paths;
  * 用于静态调用
  * @see HdrGenerator#generate(EnviImage, String, int, int, int)
  */
+@SuppressWarnings("ALL")
 public class HdrGenerator
 {
 	/**

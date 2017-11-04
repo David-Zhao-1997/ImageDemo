@@ -14,8 +14,8 @@ import java.io.IOException;
  * ImagePanel一般类，可以用ByteImage, ShortImage或者自定义的BufferedImage实例化
  * </p>
  * <p>
- * 施工中
- * </p>
+ *
+ * </p> 施工中
  * <p>
  * 本类未进行测试，若有BUG请当面殴打Inku
  * </p>
