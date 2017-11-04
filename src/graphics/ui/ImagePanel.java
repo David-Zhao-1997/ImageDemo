@@ -25,6 +25,7 @@ import java.io.IOException;
 public class ImagePanel extends JPanel {
 
 	private BufferedImage bufferedImage;
+	private Image scaledImage;
 	//使用field存储图像大小是为了尽可能少调用BufferedImage的方法
 	private int imageWidth;
 	private int imageHeight;
@@ -46,6 +47,7 @@ public class ImagePanel extends JPanel {
 		if (bufferedImage != null) {
 			imageHeight = bufferedImage.getHeight();
 			imageWidth = bufferedImage.getWidth();
+			scaledImage = bufferedImage.getScaledInstance(-1, -1, Image.SCALE_FAST);
 		}
 		setBounds(0, 0, imageWidth, imageHeight);
 	}
@@ -97,6 +99,7 @@ public class ImagePanel extends JPanel {
 			}
 		}
 		setBounds(0, 0, imageWidth, imageHeight);
+		scaledImage = bufferedImage.getScaledInstance(-1, -1, Image.SCALE_FAST);
 	}
 
 	/**
@@ -108,8 +111,17 @@ public class ImagePanel extends JPanel {
 		this((BufferedImage) null);
 	}
 
-
-
+	/**
+	 * <p>传入长宽将内置对象缩放后保存至scaledImage</p>
+	 * <p>需要按比例缩放时可以传入一个负值</p>
+	 * @param width 缩放后的宽度 负值为自动
+	 * @param height 缩放后的高度 负值为自动
+	 */
+	public void scaleImage(int width, int height){
+		scaledImage = bufferedImage.getScaledInstance(width, height, Image.SCALE_FAST);
+//		this.setSize(width,height);
+		this.repaint();
+	}
 
 	/*接口*/
 
@@ -121,7 +133,7 @@ public class ImagePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(bufferedImage, 0, 0, this);
+		g.drawImage(scaledImage, 0, 0, this);
 	}
 
 
@@ -148,5 +160,13 @@ public class ImagePanel extends JPanel {
 
 	public void setImageHeight(int imageHeight) {
 		this.imageHeight = imageHeight;
+	}
+
+	public Image getScaledImage() {
+		return scaledImage;
+	}
+
+	public void setScaledImage(Image scaledImage) {
+		this.scaledImage = scaledImage;
 	}
 }
