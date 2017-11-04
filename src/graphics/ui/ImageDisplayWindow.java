@@ -19,24 +19,15 @@ public class ImageDisplayWindow extends JFrame {
 	//Parameters
 	private int bandR, bandG, bandB;
 	private int scrollIncrement = 2;
-//	private double scalingIncrement = 0.2;
+	//	private double scalingIncrement = 0.2;
 //	private double maxScale = 3.0;
 //	private double minScale = 0.1;
-	int scalePercent = 100;
+	private int scalePercent = 100;
 
 	public ImageDisplayWindow(ImagePanel imagePanel) {
-		try {
-			if (imagePanel.getImageWidth() >= 1850 || imagePanel.getImageHeight() > 1065) {
-				throw new ImageTooLargeException();
-			}
-			this.imagePanel = imagePanel;
-			initUI();
-			initListeners();
-		} catch (ImageTooLargeException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(ImageDisplayWindow.this, e.getMessage(), e.toString(), JOptionPane.ERROR_MESSAGE);
-		}
-
+		this.imagePanel = imagePanel;
+		initUI();
+		initListeners();
 	}
 
 	public ImageDisplayWindow(ShortImage shortImage, int bandR, int bandG, int bandB) {
@@ -46,13 +37,10 @@ public class ImageDisplayWindow extends JFrame {
 		this.bandB = bandB;
 		try {
 			this.imagePanel = new ImagePanel(shortImage, bandR, bandG, bandB);
-			if (imagePanel.getImageWidth() >= 1850 || imagePanel.getImageHeight() > 1065) {
-				throw new ImageTooLargeException();
-			}
 			initUI();
 			initListeners();
 
-		} catch (IOException | ImageTooLargeException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(ImageDisplayWindow.this, e.getMessage(), e.toString(), JOptionPane.ERROR_MESSAGE);
 		}
@@ -102,7 +90,6 @@ public class ImageDisplayWindow extends JFrame {
 
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-//				System.out.println(e.paramString());
 				int pixelsToScroll = e.getUnitsToScroll() * getScrollIncrement();
 				if (e.isShiftDown()) {
 					//roll horizontally
@@ -110,65 +97,36 @@ public class ImageDisplayWindow extends JFrame {
 				} else if (e.isAltDown()) {
 					//Scale
 					//get current displaying image size
-					//TODO 用原图片计算缩放像素 防止失去比例
 					int w, h;
-					if(e.getUnitsToScroll() > 0){
+					if (e.getUnitsToScroll() > 0) {
 						//Zoom out
-						if(scalePercent > 5){
+						if (scalePercent > 5) {
 							scalePercent *= 0.8;
 							double tScale = scalePercent * 0.01;
-							w = (int)(imagePanel.getWidth() * tScale);
-							h = (int)(imagePanel.getImageHeight() * tScale);
-							imagePanel.scaleImage(w,h);
+							w = (int) (imagePanel.getWidth() * tScale);
+							h = (int) (imagePanel.getImageHeight() * tScale);
+							imagePanel.scaleImage(w, h);
 //							imagePanel.setSize(w, h);
 							//setsize会导致问题
 						}
-					} else if(e.getUnitsToScroll() < 0){
+					} else if (e.getUnitsToScroll() < 0) {
 						//Zoom in
 						if (scalePercent < 300) {
-							if(scalePercent * 1.2 == scalePercent){
+							if (scalePercent < 5) {
 								scalePercent += 2;
 							} else {
 								scalePercent *= 1.2;
 							}
 							double tScale = scalePercent * 0.01;
-							w = (int)(imagePanel.getWidth() * tScale);
-							h = (int)(imagePanel.getImageHeight() * tScale);
-							imagePanel.scaleImage(w,h);
+							w = (int) (imagePanel.getWidth() * tScale);
+							h = (int) (imagePanel.getImageHeight() * tScale);
+							imagePanel.scaleImage(w, h);
+//							System.out.println("scale in: " + scalePercent + "%, w-h:" + w + " " + h);
 //							imagePanel.setSize(w, h);
 							//setsize会导致问题
 						}
 					}
 
-//					int width = imagePanel.getScaledImage().getWidth(ImageDisplayWindow.this);
-//					int height = imagePanel.getScaledImage().getHeight(ImageDisplayWindow.this);
-//
-//					try {// getWidth need waiting
-//						if (width == -1) {
-//							ImageDisplayWindow.this.wait();
-//							width = imagePanel.getScaledImage().getWidth(ImageDisplayWindow.this);
-//							height = imagePanel.getScaledImage().getHeight(ImageDisplayWindow.this);
-//						}
-//						if (e.getUnitsToScroll() > 0) {
-//							// Zoom out
-//							if (width > imagePanel.getImageWidth() * getMinScale() && width > 10 && height > 10) {
-//								imagePanel.scaleImage(
-//										(int) (width * (1 - getScalingIncrement())),
-//										(int) (height * (1 - getScalingIncrement()))
-//								);
-//							}
-//						} else if (e.getUnitsToScroll() < 0) {
-//							//Zoon in
-//							if (width < imagePanel.getImageWidth() * getMaxScale()) {
-//								imagePanel.scaleImage(
-//										(int) (width * (1 + getScalingIncrement())),
-//										(int) (height * (1 + getScalingIncrement()))
-//								);
-//							}
-//						}
-//					} catch (InterruptedException e1) {
-//						e1.printStackTrace();
-//					}
 				} else {
 					imagePanel.setLocation(imagePanel.getX(), imagePanel.getY() - pixelsToScroll);
 				}
@@ -182,9 +140,6 @@ public class ImageDisplayWindow extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				x = e.getXOnScreen();
 				y = e.getYOnScreen();
-//				x = e.getX() + imagePanel.getX();
-//				y = e.getY() + imagePanel.getY();
-//				System.out.println("get xy " + x + " " + y);
 			}
 
 			@Override
@@ -197,16 +152,31 @@ public class ImageDisplayWindow extends JFrame {
 				int incrementY = e.getYOnScreen() - y;
 				x = e.getXOnScreen();
 				y = e.getYOnScreen();
-//				x = e.getX() + imagePanel.getX();
-//				y = e.getY() + imagePanel.getY();
 				imagePanel.setLocation(imagePanel.getX() + incrementX, imagePanel.getY() + incrementY);
-//				System.out.println("Dragged get xy " + x + " " + y);
 			}
 		};
 		imagePanel.addMouseListener(dragAdapter);
 		imagePanel.addMouseMotionListener(dragAdapter);
 		viewPosButton.addActionListener((e) -> {
 		});
+	}
+
+
+	public int getScrollIncrement() {
+		return scrollIncrement;
+	}
+
+	public void setScrollIncrement(int scrollIncrement) {
+		this.scrollIncrement = scrollIncrement;
+	}
+
+	static {
+		//将UI风格设置为Windows默认风格
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String args[]) {
@@ -225,54 +195,5 @@ public class ImageDisplayWindow extends JFrame {
 		long end = System.currentTimeMillis();
 		System.out.print("main ImageDisplayWindow Process time:");
 		System.out.println(end - start);
-	}
-
-	public int getScrollIncrement() {
-		return scrollIncrement;
-	}
-
-	public void setScrollIncrement(int scrollIncrement) {
-		this.scrollIncrement = scrollIncrement;
-	}
-
-//	public double getScalingIncrement() {
-//		return scalingIncrement;
-//	}
-//
-//	public void setScalingIncrement(double scalingIncrement) {
-//		this.scalingIncrement = scalingIncrement;
-//	}
-//
-//	public double getMaxScale() {
-//		return maxScale;
-//	}
-//
-//	public void setMaxScale(double maxScale) {
-//		this.maxScale = maxScale;
-//	}
-//
-//	public double getMinScale() {
-//		return minScale;
-//	}
-//
-//	public void setMinScale(double minScale) {
-//		this.minScale = minScale;
-//	}
-
-	private class ImageTooLargeException extends Exception {
-
-		public ImageTooLargeException() {
-			super("The image passed to the UI handler is to large for displaying.");
-		}
-
-	}
-
-	static {
-		//将UI风格设置为Windows默认风格
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
 	}
 }
