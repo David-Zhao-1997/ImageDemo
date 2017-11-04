@@ -23,7 +23,7 @@ public class ImageDisplayWindow extends JFrame
     //Components
     private JPanel jPanel;
     private ImagePanel imagePanel;
-    private JButton viewPosButton;
+    private JButton resetButton;
 
     //Members
     private ShortImage shortImage;
@@ -84,9 +84,9 @@ public class ImageDisplayWindow extends JFrame
         this.setBounds(100, 100, imagePanel.getImageWidth(), imagePanel.getImageHeight());
 
         //widgets
-        this.viewPosButton = new JButton("View Pos");
-        viewPosButton.setBounds(3, 3, 100, 20);
-//		this.add(viewPosButton);
+        this.resetButton = new JButton("Reset");
+        resetButton.setBounds(3, 3, 100, 20);
+		this.add(resetButton);
 
         //show image
         this.imagePanel = imagePanel;
@@ -132,12 +132,7 @@ public class ImageDisplayWindow extends JFrame
                         if (scalePercent > 5)
                         {
                             scalePercent *= 0.8;
-                            double tScale = scalePercent * 0.01;
-                            w = (int) (imagePanel.getImageWidth() * tScale);
-                            h = (int) (imagePanel.getImageHeight() * tScale);
-                            imagePanel.scaleImage(w, h);
-//							imagePanel.setSize(w, h);
-                            //setsize会导致问题
+                            scaleImage();
                         }
                     }
                     else if (e.getUnitsToScroll() < 0)
@@ -153,12 +148,7 @@ public class ImageDisplayWindow extends JFrame
                             {
                                 scalePercent *= 1.2;
                             }
-                            double tScale = scalePercent * 0.01;
-                            w = (int) (imagePanel.getImageWidth() * tScale);
-                            h = (int) (imagePanel.getImageHeight() * tScale);
-                            imagePanel.scaleImage(w, h);
-//							imagePanel.setSize(w, h);
-                            //setsize会导致问题
+                            scaleImage();
                         }
                     }
 
@@ -198,10 +188,31 @@ public class ImageDisplayWindow extends JFrame
         };
         imagePanel.addMouseListener(dragAdapter);
         imagePanel.addMouseMotionListener(dragAdapter);
-        viewPosButton.addActionListener((e) -> {
+        resetButton.addActionListener((e) -> {
+        	scalePercent = 100;
+        	scaleImage();
+        	imagePanel.setLocation(0, 0);
         });
     }
 
+	/**
+	 * 读取scalePercent并自动缩放
+	 */
+	private void scaleImage(){
+    	double rate = scalePercent * 0.01;
+    	setImageScale(rate);
+    }
+
+	/**
+	 * 缩放至指定比例，但不改变scalePercent
+	 * @param scale
+	 */
+	private void setImageScale(double scale){
+		imagePanel.scaleImage(
+				(int) (imagePanel.getImageWidth() * scale),
+				(int) (imagePanel.getImageHeight() * scale)
+		);
+    }
 
     public int getScrollIncrement()
     {
@@ -231,7 +242,7 @@ public class ImageDisplayWindow extends JFrame
         long start = System.currentTimeMillis();
         try
         {
-            String file = "C:\\4BandsOut\\4-Bands-_87";
+            String file = "D:\\Documents\\宣墨白\\intell\\out\\out-_20";
             ShortImage shortImage = new ShortImage(file);
             ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
             frame.setVisible(true);
