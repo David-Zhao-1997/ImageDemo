@@ -97,8 +97,9 @@ public class ImageDisplayWindow extends JFrame {
 			int y;
 			@Override
 			public void mousePressed(MouseEvent e) {
-				x = e.getX();
-				y = e.getY();
+				//获取imagePanel的绝对坐标，加上鼠标的相对坐标
+				x = e.getX() + imagePanel.getX();
+				y = e.getY() + imagePanel.getY();
 				System.out.println("get xy " + x + " " + y);
 			}
 
@@ -108,10 +109,10 @@ public class ImageDisplayWindow extends JFrame {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				int incrementX = e.getX() - x;
-				int incrementY = e.getY() - y;
-				x = e.getX();
-				y = e.getY();
+				int incrementX = e.getX() + imagePanel.getX() - x;
+				int incrementY = e.getY() + imagePanel.getY() - y;
+				x = e.getX() + imagePanel.getX();
+				y = e.getY() + imagePanel.getY();
 				imagePanel.setLocation(imagePanel.getX() + incrementX, imagePanel.getY() + incrementY);
 				System.out.println("Dragged get xy " + x + " " + y);
 			}
