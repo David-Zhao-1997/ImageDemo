@@ -1,7 +1,9 @@
 package graphics.ui;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.text.DateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +13,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
+import graphics.utils.AWTEventAdapter;
 import utils.ShortImage;
 
 public class ImageDisplayWindow extends JFrame {
@@ -84,10 +87,10 @@ public class ImageDisplayWindow extends JFrame {
 
 	private void initListeners() {
 
-		KeyAdapter keyboardListener = new KeyAdapter() {
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventAdapter(){
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println("Key Event");
+				System.out.println("Key Event from " + e.getSource().toString());
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					//F1 key
 					String message = "Drag to scroll. Alt + mouse wheel to zoom.";
@@ -96,11 +99,8 @@ public class ImageDisplayWindow extends JFrame {
 					ImageDisplayWindow.this.dispose();
 				}
 			}
-		};
+		},AWTEvent.KEY_EVENT_MASK);
 
-		//TODO 这里的按键监听不到
-		ImageDisplayWindow.this.addKeyListener(keyboardListener);
-		imagePanel.addKeyListener(keyboardListener);
 		imagePanel.addMouseWheelListener(new MouseAdapter() {
 
 			@Override
@@ -112,7 +112,7 @@ public class ImageDisplayWindow extends JFrame {
 				} else if (e.isAltDown()) {
 					//Scale
 					//get current displaying image size
-					int w, h;
+//					int w, h;
 					if (e.getUnitsToScroll() > 0) {
 						//Zoom out
 						if (scalePercent > 5) {
@@ -169,7 +169,12 @@ public class ImageDisplayWindow extends JFrame {
 	}
 
 	/**
-	 * 读取scalePercent并自动缩放
+	 * <p>读取scalePercent并自动缩放</p>
+	 * <p>调用方法如：</p>
+	 * <pre>{@code
+	 * scalePercent *= 1.2;
+	 * scaleImage();
+	 * }</pre>
 	 */
 	private void scaleImage() {
 		double rate = scalePercent * 0.01;
@@ -177,8 +182,8 @@ public class ImageDisplayWindow extends JFrame {
 	}
 
 	/**
-	 * 缩放至指定比例，但不改变scalePercent
-	 *
+	 * <p>缩放至指定比例，但不改变scalePercent</p>
+	 * <p><b>依赖于scalePercent的其他方法将不会得到通知</b></p>
 	 * @param scale
 	 */
 	private void setImageScale(double scale) {
@@ -197,7 +202,7 @@ public class ImageDisplayWindow extends JFrame {
 	}
 
 	static {
-		//将UI风格设置为Windows默认风格
+		//将UI风格设置为操作系统默认风格
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
