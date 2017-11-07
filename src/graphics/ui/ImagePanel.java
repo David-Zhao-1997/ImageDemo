@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
-import utils.ByteImage;
-import utils.EnviImage;
-import utils.ShortImage;
+import utils.ByteImageFile;
+import utils.EnviImageFile;
+import utils.ShortImageFile;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ public class ImagePanel extends JPanel
     private int imageHeight;
     int bandR, bandB, bandG;
 
-    private EnviImage enviImage;
+    private EnviImageFile enviImage;
 
     /**
      * <p>
@@ -65,7 +65,7 @@ public class ImagePanel extends JPanel
      * @param bandG     绿色通道的波段号
      * @param bandB     蓝色通道的波段号
      */
-    public ImagePanel(EnviImage enviImage, int bandR, int bandG, int bandB) throws IOException
+    public ImagePanel(EnviImageFile enviImage, int bandR, int bandG, int bandB) throws IOException
     {
         this.enviImage = enviImage;
         imageWidth = enviImage.getSamples();
@@ -77,9 +77,9 @@ public class ImagePanel extends JPanel
         this.bandB = bandB;
 
         //generate buffered image content
-        if (enviImage instanceof ByteImage)
+        if (enviImage instanceof ByteImageFile)
         {
-            ByteImage image = (ByteImage) enviImage;
+            ByteImageFile image = (ByteImageFile) enviImage;
             short[][] red = image.getBandInShorts(bandR);
             short[][] green = image.getBandInShorts(bandG);
             short[][] blue = image.getBandInShorts(bandB);
@@ -94,9 +94,9 @@ public class ImagePanel extends JPanel
                 }
             }
         }
-        else if (enviImage instanceof ShortImage)
+        else if (enviImage instanceof ShortImageFile)
         {
-            ShortImage image = (ShortImage) enviImage;
+            ShortImageFile image = (ShortImageFile) enviImage;
             short[][] red = image.getBandInShorts(bandR);
             short[][] green = image.getBandInShorts(bandG);
             short[][] blue = image.getBandInShorts(bandB);

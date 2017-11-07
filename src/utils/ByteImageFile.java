@@ -13,10 +13,10 @@ import java.io.IOException;
  * @author COMMENT_Inku
  */
 @SuppressWarnings("ALL")
-public class ByteImage extends EnviImage
+public class ByteImageFile extends EnviImageFile
 {
 
-    public ByteImage(String filename) throws IOException
+    public ByteImageFile(String filename) throws IOException
     {
         super(filename);
     }

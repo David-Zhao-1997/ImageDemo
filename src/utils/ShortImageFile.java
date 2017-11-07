@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author COMMENT_Inku
  */
 @SuppressWarnings("ALL")
-public class ShortImage extends EnviImage
+public class ShortImageFile extends EnviImageFile
 {
     private byte[][] band1;
     private byte[][] band2;
@@ -33,12 +33,12 @@ public class ShortImage extends EnviImage
     private double avg[] = {-1, -1, -1, -1};
     private double variance[] = new double[4];
 
-    public ShortImage(String filename) throws IOException
+    public ShortImageFile(String filename) throws IOException
     {
         super(filename);
     }
 
-    public ShortImage toSingleBand(short[][] band)
+    public ShortImageFile toSingleBand(short[][] band)
     {
         b1 = band;
         for (int i = 1; i < b.length; i++)
@@ -276,7 +276,7 @@ public class ShortImage extends EnviImage
 
     public static void main(String[] args) throws IOException
     {
-        ShortImage shortImage = new ShortImage("C:\\4BandsOut\\4-Bands-_87");
+        ShortImageFile shortImage = new ShortImageFile("C:\\4BandsOut\\4-Bands-_87");
         System.out.println(shortImage.getAvg(1));
         System.out.println(shortImage.getAvg(2));
         System.out.println(shortImage.getAvg(3));

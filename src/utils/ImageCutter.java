@@ -47,7 +47,7 @@ public class ImageCutter
 	 */
 	public static void cut(int width, int height, String inputFilePath, String outputFilePath) throws IOException
 	{
-		ByteImage image = new ByteImage(inputFilePath);// 创建ByteImage对象
+		ByteImageFile image = new ByteImageFile(inputFilePath);// 创建ByteImage对象
 		short[][] b1 = image.convertBand1ToShorts();// 获取band1并转化为short[][]类型
 		short[][] b2 = image.convertBand2ToShorts();// 获取band2并转化为short[][]类型
 		short[][] b3 = image.convertBand3ToShorts();// 获取band3并转化为short[][]类型
@@ -86,10 +86,10 @@ public class ImageCutter
 				if (flag)
 				{
 					String fName = outputFilePath + "_" + cnt;
-					ShortImage.addBandToFile(output1, fName);
-					ShortImage.addBandToFile(output2, fName);
-					ShortImage.addBandToFile(output3, fName);
-					ShortImage.addBandToFile(output4, fName);
+					ShortImageFile.addBandToFile(output1, fName);
+					ShortImageFile.addBandToFile(output2, fName);
+					ShortImageFile.addBandToFile(output3, fName);
+					ShortImageFile.addBandToFile(output4, fName);
 					HdrGenerator.generate(image, fName + ".hdr", y, x, 4, height, width);
 					cnt++;
 				}
@@ -120,7 +120,7 @@ public class ImageCutter
 		String parentPath = file.getParent();
 		File stat = new File(parentPath + File.separator + "statistics.txt");
 		ArrayList<Double> avg = new ArrayList<Double>();
-		ByteImage sourceImage = new ByteImage(inputFilePath);// 创建ByteImage对象
+		ByteImageFile sourceImage = new ByteImageFile(inputFilePath);// 创建ByteImage对象
 		short[][] b3 = sourceImage.convertBand3ToShorts();// 获取band3并转化为short[][]类型
 		short[][] b4 = sourceImage.convertBand4ToShorts();// 获取band4并转化为short[][]类型
 		int samples = sourceImage.getSamples();// 获取源图片的宽度
@@ -164,7 +164,7 @@ public class ImageCutter
 				{
 					avg.add((double) sum / (double) avgCount);
 					String filename = outputFilePath + File.separator + file.getName() + "_" + cnt;
-					ShortImage.addBandToFile(diff, filename);
+					ShortImageFile.addBandToFile(diff, filename);
 					HdrGenerator.generate(sourceImage, filename + ".hdr", y, x, 1);
 					cnt++;
 				}

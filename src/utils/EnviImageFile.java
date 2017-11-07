@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * General ENVI Image.
  *
- * @see ByteImage
- * @see ShortImage
+ * @see ByteImageFile
+ * @see ShortImageFile
  */
-public class EnviImage
+public class EnviImageFile
 {
     protected int samples;//列序号
     protected int lines;//行序号
@@ -29,7 +29,7 @@ public class EnviImage
      * @param filename 传入文件路径
      * @throws IOException
      */
-    public EnviImage(String filename) throws IOException
+    public EnviImageFile(String filename) throws IOException
     {
         path = filename;
         BufferedReader bufr = new BufferedReader(new FileReader(filename + ".hdr"));

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import utils.Pair;
-import utils.ShortImage;
+import utils.ShortImageFile;
 
 /**
  * 算法测试类<br>
@@ -168,7 +168,7 @@ public class Algorithms
         return getRegionCount(fpo);
     }
 
-    public static short[][] binaryProcess(ShortImage img, int threshold) throws IOException
+    public static short[][] binaryProcess(ShortImageFile img, int threshold) throws IOException
     {
         short[][] image = img.getBand1InShorts();
         int samples = img.getSamples();
@@ -192,7 +192,7 @@ public class Algorithms
 //        System.out.println("enRun:" + r.enRun);
 //        System.out.println("rowRun:" + r.rowRun);
 
-//        ShortImage.saveBandsToFile("C:\\1619", image);
+//        ShortImageFile.saveBandsToFile("C:\\1619", image);
         return image;
     }
 
@@ -233,7 +233,7 @@ public class Algorithms
      * @return int 推测出的阈值
      * @throws IOException
      */
-    public static int getThreshold(ShortImage img, int min, int max) throws IOException
+    public static int getThreshold(ShortImageFile img, int min, int max) throws IOException
     {
         double[] ratios = new double[max - min + 3];
         int[] counts = new int[max - min + 3];
@@ -351,7 +351,7 @@ public class Algorithms
         return fpo;
     }
 
-    public static Output_Data Just_Print_Start_End(ShortImage img, int threshold, FirstPassOutput fpo2) throws IOException
+    public static Output_Data Just_Print_Start_End(ShortImageFile img, int threshold, FirstPassOutput fpo2) throws IOException
     {
         Output_Data output_data = new Output_Data();
         Vector<Vector> new_v = new Vector<>();
@@ -407,12 +407,12 @@ public class Algorithms
     /**
      * 比较两幅图像的cosine相似度
      *
-     * @param img1 ShortImage
-     * @param img2 ShortImage
+     * @param img1 ShortImageFile
+     * @param img2 ShortImageFile
      * @return double 0-1 之间的数值 0代表正交 1代表相等 -1代表反向
      * @throws IOException
      */
-    public static double calculateCosSimilarity(ShortImage img1, ShortImage img2) throws IOException
+    public static double calculateCosSimilarity(ShortImageFile img1, ShortImageFile img2) throws IOException
     {
         double dotProduct = 0;
         for (int i = 1; i <= 4; i++)
@@ -457,8 +457,8 @@ public class Algorithms
 
     public static void main(String[] args) throws IOException
     {
-        ShortImage shortImage1 = new ShortImage("C:\\4BandsOut\\4-Bands-_88");
-        ShortImage shortImage2 = new ShortImage("C:\\4BandsOut\\4-Bands-_89");
+        ShortImageFile shortImage1 = new ShortImageFile("C:\\4BandsOut\\4-Bands-_88");
+        ShortImageFile shortImage2 = new ShortImageFile("C:\\4BandsOut\\4-Bands-_89");
 
 
         double[] img88 = {82, 80, 107, 81};
@@ -478,14 +478,14 @@ public class Algorithms
 //        short[][] img3 = thresholding(shortImage,240);
 //        int count3 = connectedDomainCount(img3);
 //        System.out.println(count3);
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
+//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\countTest\\count");
+//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
 //        int threshold = getThreshold(shortImage, 220, 250);
 //        System.out.println(threshold);
-//        ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
+//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 //        for (int i = 5; i < 468; i++)
 //        {
-//            ShortImage sImg = new ShortImage("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
+//            ShortImageFile sImg = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
 //            try
 //            {
 //                int threshold = getThreshold(sImg, 0, 300);

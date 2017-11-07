@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import utils.ByteImage;
+import utils.ByteImageFile;
 
 public class ReadFileDemo
 {
@@ -16,7 +16,7 @@ public class ReadFileDemo
 	public static void main(String[] args) throws IOException
 	{
 		String path = "C:\\Users\\Administrator\\Desktop\\region";
-		ByteImage hdrUtils = new ByteImage(path);
+		ByteImageFile hdrUtils = new ByteImageFile(path);
 		int sample = hdrUtils.getSamples();
 		int lines = hdrUtils.getLines();
 		long startTime = System.currentTimeMillis();

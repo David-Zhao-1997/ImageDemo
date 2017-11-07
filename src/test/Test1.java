@@ -4,7 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import utils.ByteImage;
+import utils.ByteImageFile;
 
 public class Test1
 {
@@ -37,7 +37,7 @@ public class Test1
 	{
 		try
 		{
-			ByteImage imageUtils = new ByteImage("C:\\Users\\Administrator\\Desktop\\region");
+			ByteImageFile imageUtils = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\region");
 			int samples = imageUtils.getSamples();
 			int lines = imageUtils.getLines();
 			short[][] b3 = new short[lines][samples];

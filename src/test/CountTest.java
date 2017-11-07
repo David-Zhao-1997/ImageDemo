@@ -1,12 +1,12 @@
 package test;
 
-import utils.ShortImage;
+import utils.ShortImageFile;
 
 public class CountTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		//		ByteImage byteImage = new ByteImage("C:\\Users\\Administrator\\Desktop\\region");
+		//		ByteImageFile byteImage = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\region");
 		//		short[][] band = byteImage.convertBand1ToShorts();
 		//		for(int i = 0;i<band.length;i++)
 		//		{
@@ -18,11 +18,11 @@ public class CountTest
 		//				}
 		//			}
 		//		}
-		//		ShortImage.saveBandsToFile("C:\\Users\\Administrator\\Desktop\\countTest\\count", band);
+		//		ShortImageFile.saveBandsToFile("C:\\Users\\Administrator\\Desktop\\countTest\\count", band);
 
 
 
-		ShortImage shortImage = new ShortImage("C:\\Users\\Administrator\\Desktop\\countTest\\count");
+		ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\countTest\\count");
 		short[][] img = shortImage.getBand1InShorts();
 		System.out.println(img);
 //		Algorithms.connectedDomainCount(img);

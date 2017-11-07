@@ -2,7 +2,7 @@ package utils;
 
 import java.io.IOException;
 
-public class SingleBandImage extends EnviImage
+public class SingleBandImageFile extends EnviImageFile
 {
     /**
      * 用于读取图像文件的工具类
@@ -10,7 +10,7 @@ public class SingleBandImage extends EnviImage
      * @param filename 传入文件路径
      * @throws IOException
      */
-    public SingleBandImage(String filename) throws IOException
+    public SingleBandImageFile(String filename) throws IOException
     {
         super(filename);
     }

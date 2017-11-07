@@ -4,7 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import utils.ByteImage;
+import utils.ByteImageFile;
 
 public class Test3
 {
@@ -37,7 +37,7 @@ public class Test3
 	{
 		try
 		{
-			ByteImage imageUtils = new ByteImage("C:\\Users\\Administrator\\Desktop\\region");
+			ByteImageFile imageUtils = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\region");
 			short[][] b3 = imageUtils.convertBand3ToShorts();
 
 

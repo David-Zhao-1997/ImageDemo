@@ -1,8 +1,8 @@
 package test;
 import java.io.IOException;
 
-import utils.ByteImage;
-import utils.ShortImage;
+import utils.ByteImageFile;
+import utils.ShortImageFile;
 
 public class Test4
 {
@@ -18,13 +18,13 @@ public class Test4
 //		ByteImageUtils.addBandtoFile(b4, "C:\\Users\\Administrator\\Desktop\\test4");
 //		
 		
-		short[][] b1 = new ByteImage("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand1ToShorts();
-		short[][] b2 = new ByteImage("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand2ToShorts();
-		short[][] b3 = new ByteImage("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand3ToShorts();
-		short[][] b4 = new ByteImage("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand4ToShorts();
-		ShortImage.addBandToFile(b1, "C:\\Users\\Administrator\\Desktop\\test4");
-		ShortImage.addBandToFile(b2, "C:\\Users\\Administrator\\Desktop\\test4");
-		ShortImage.addBandToFile(b3, "C:\\Users\\Administrator\\Desktop\\test4");
-		ShortImage.addBandToFile(b4, "C:\\Users\\Administrator\\Desktop\\test4");
+		short[][] b1 = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand1ToShorts();
+		short[][] b2 = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand2ToShorts();
+		short[][] b3 = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand3ToShorts();
+		short[][] b4 = new ByteImageFile("C:\\Users\\Administrator\\Desktop\\2015-7-4").convertBand4ToShorts();
+		ShortImageFile.addBandToFile(b1, "C:\\Users\\Administrator\\Desktop\\test4");
+		ShortImageFile.addBandToFile(b2, "C:\\Users\\Administrator\\Desktop\\test4");
+		ShortImageFile.addBandToFile(b3, "C:\\Users\\Administrator\\Desktop\\test4");
+		ShortImageFile.addBandToFile(b4, "C:\\Users\\Administrator\\Desktop\\test4");
 	}
 }

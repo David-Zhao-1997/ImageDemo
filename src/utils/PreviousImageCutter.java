@@ -31,7 +31,7 @@ public class PreviousImageCutter
 	 */
 	public static void cut(int width, int height, String inputPath, String outputFilePath) throws IOException
 	{
-		ByteImage image = new ByteImage(inputPath);//创建ByteImage对象
+		ByteImageFile image = new ByteImageFile(inputPath);//创建ByteImage对象
 		short[][] b1 = image.convertBand1ToShorts();//获取band1并转化为short[][]类型
 		short[][] b2 = image.convertBand2ToShorts();//获取band2并转化为short[][]类型
 		short[][] b3 = image.convertBand3ToShorts();//获取band3并转化为short[][]类型
@@ -70,10 +70,10 @@ public class PreviousImageCutter
 				if (flag)
 				{
 					String fName = outputFilePath + "_" + cnt;
-					ShortImage.addBandToFile(output1, fName);
-					ShortImage.addBandToFile(output2, fName);
-					ShortImage.addBandToFile(output3, fName);
-					ShortImage.addBandToFile(output4, fName);
+					ShortImageFile.addBandToFile(output1, fName);
+					ShortImageFile.addBandToFile(output2, fName);
+					ShortImageFile.addBandToFile(output3, fName);
+					ShortImageFile.addBandToFile(output4, fName);
 					HdrGenerator.generate(image, fName + ".hdr", y, x, 4);
 					cnt++;
 				}

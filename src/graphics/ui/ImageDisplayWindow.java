@@ -3,7 +3,6 @@ package graphics.ui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.text.DateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,7 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import graphics.utils.AWTEventAdapter;
-import utils.ShortImage;
+import utils.ShortImageFile;
 
 public class ImageDisplayWindow extends JFrame {
 
@@ -24,7 +23,7 @@ public class ImageDisplayWindow extends JFrame {
 	private JButton resetButton;
 
 	//Members
-	private ShortImage shortImage;
+	private ShortImageFile shortImage;
 
 	//Parameters
 	private int bandR, bandG, bandB;
@@ -40,7 +39,7 @@ public class ImageDisplayWindow extends JFrame {
 		initListeners();
 	}
 
-	public ImageDisplayWindow(ShortImage shortImage, int bandR, int bandG, int bandB) {
+	public ImageDisplayWindow(ShortImageFile shortImage, int bandR, int bandG, int bandB) {
 		this.shortImage = shortImage;
 		this.bandR = bandR;
 		this.bandG = bandG;
@@ -61,7 +60,7 @@ public class ImageDisplayWindow extends JFrame {
 	 *
 	 * @param image
 	 */
-	public ImageDisplayWindow(ShortImage image) {
+	public ImageDisplayWindow(ShortImageFile image) {
 		this(image, 1, 1, 1);
 	}
 
@@ -136,14 +135,19 @@ public class ImageDisplayWindow extends JFrame {
 				}
 			}
 		});
-		MouseAdapter dragAdapter = new MouseAdapter() {
+		MouseAdapter imageMouseAdapter = new MouseAdapter() {
 			int x;
 			int y;
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				x = e.getXOnScreen();
-				y = e.getYOnScreen();
+				int button = e.getButton();
+				if(button == 1) {
+					x = e.getXOnScreen();
+					y = e.getYOnScreen();
+				} else if(button == 3){
+
+				}
 			}
 
 			@Override
@@ -159,8 +163,8 @@ public class ImageDisplayWindow extends JFrame {
 				imagePanel.setLocation(imagePanel.getX() + incrementX, imagePanel.getY() + incrementY);
 			}
 		};
-		imagePanel.addMouseListener(dragAdapter);
-		imagePanel.addMouseMotionListener(dragAdapter);
+		imagePanel.addMouseListener(imageMouseAdapter);
+		imagePanel.addMouseMotionListener(imageMouseAdapter);
 		resetButton.addActionListener((e) -> {
 			scalePercent = 100;
 			scaleImage();
@@ -214,7 +218,7 @@ public class ImageDisplayWindow extends JFrame {
 		long start = System.currentTimeMillis();
 		try {
 			String file = "D:\\Documents\\宣墨白\\intell\\out\\out-_20";
-			ShortImage shortImage = new ShortImage(file);
+			ShortImageFile shortImage = new ShortImageFile(file);
 			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
 			frame.setVisible(true);
 //			for(int i = 0; i < 49; i++) {
