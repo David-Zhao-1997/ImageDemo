@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import utils.ByteImageFile;
-import utils.HdrGenerator;
-import utils.ShortImageFile;
+import utils.tools.HdrGenerator;
 
 public class MinusTest
 {
@@ -61,7 +60,8 @@ public class MinusTest
 				{
 					avg.add((double) sum / (double) avgcount);
 					String filename = outfilename + cnt;
-					ShortImageFile.addBandToFile(difference, outfilename + cnt);
+					//TODO This Code Does Not Work Any More
+//					ShortImageFile.addBandToFile(difference, outfilename + cnt);
 					HdrGenerator.generate(image, filename + ".hdr", y, x, 1);
 					cnt++;
 				}

@@ -1,6 +1,8 @@
 package test;
 
-import utils.ShortImageFile;
+
+import utils.functional.ShortImageReader;
+import utils.imaging.ShortSatImage;
 
 public class CountTest
 {
@@ -22,8 +24,8 @@ public class CountTest
 
 
 
-		ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-		short[][] img = shortImage.getBand1InShorts();
+		ShortSatImage shortImage = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\countTest\\count").getImage();
+		short[][] img = shortImage.getBand(1);
 		System.out.println(img);
 //		Algorithms.connectedDomainCount(img);
 	}

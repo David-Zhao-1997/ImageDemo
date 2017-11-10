@@ -1,29 +1,67 @@
 package graphics.ui;
 
+import graphics.utils.AWTEventAdapter;
+import utils.functional.ShortImageReader;
+import utils.imaging.ShortSatImage;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-
-import graphics.utils.AWTEventAdapter;
-import utils.ShortImageFile;
-
 public class ImageDisplayWindow extends JFrame {
+
+	private class ToolbarWindow extends JFrame{
+
+		//Components
+		private JPanel tool_jPanel;
+		private JButton resetButton;
+
+		//Members
+
+		//Parameters
+
+		public ToolbarWindow(){
+			ToolbarWindow.this.initUI();
+			ToolbarWindow.this.initListeners();
+		}
+
+		private void initUI(){
+			//init frame
+			this.setTitle("Tools");
+			tool_jPanel = new JPanel();
+			this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			this.setContentPane(tool_jPanel);
+			tool_jPanel.setLayout(null);
+			ToolbarWindow.this.setBounds(100,600,300,450);
+			ToolbarWindow.this.setAlwaysOnTop(true);
+
+			//widget
+			this.resetButton = new JButton("Reset");
+			resetButton.setBounds(3, 3, 100, 20);
+			this.add(resetButton);
+		}
+
+		private void initListeners(){
+			resetButton.addActionListener((e) -> {
+				ImageDisplayWindow.this.scalePercent = 100;
+				ImageDisplayWindow.this.scaleImage();
+				ImageDisplayWindow.this.imagePanel.setLocation(0, 0);
+			});
+		}
+
+	}
 
 	//Components
 	private JPanel jPanel;
 	private ImagePanel imagePanel;
-	private JButton resetButton;
+	private ToolbarWindow toolbarFrame;
 
 	//Members
-	private ShortImageFile shortImage;
+	private ShortSatImage shortImage;
 
 	//Parameters
 	private int bandR, bandG, bandB;
@@ -39,7 +77,8 @@ public class ImageDisplayWindow extends JFrame {
 		initListeners();
 	}
 
-	public ImageDisplayWindow(ShortImageFile shortImage, int bandR, int bandG, int bandB) {
+	//TODO 防止下标越界
+	public ImageDisplayWindow(ShortSatImage shortImage, int bandR, int bandG, int bandB) {
 		this.shortImage = shortImage;
 		this.bandR = bandR;
 		this.bandG = bandG;
@@ -60,26 +99,24 @@ public class ImageDisplayWindow extends JFrame {
 	 *
 	 * @param image
 	 */
-	public ImageDisplayWindow(ShortImageFile image) {
+	public ImageDisplayWindow(ShortSatImage image) {
 		this(image, 1, 1, 1);
 	}
 
 	private void initUI() {
 		//init frame
 		this.setTitle("View image - F1 for help");
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.jPanel = new JPanel();
 		setContentPane(jPanel);
 		this.jPanel.setLayout(null);
 		this.setBounds(100, 100, imagePanel.getImageWidth(), imagePanel.getImageHeight());
 
 		//widgets
-		this.resetButton = new JButton("Reset");
-		resetButton.setBounds(3, 3, 100, 20);
-		this.add(resetButton);
+		toolbarFrame = new ToolbarWindow();
+		toolbarFrame.setVisible(true);
 
 		//show image
-		this.imagePanel = imagePanel;
 		imagePanel.setLocation(0, 0);
 		this.add(imagePanel);
 	}
@@ -89,13 +126,15 @@ public class ImageDisplayWindow extends JFrame {
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventAdapter(){
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println("Key Event from " + e.getSource().toString());
+//				System.out.println("Key Event from " + e.getSource().toString());
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					//F1 key
-					String message = "Drag to scroll. Alt + mouse wheel to zoom.";
+					String message = "Drag to scroll. Alt + mouse wheel to zoom. F2 to open toolkit.";
 					JOptionPane.showMessageDialog(ImageDisplayWindow.this, message, "Help", JOptionPane.INFORMATION_MESSAGE);
 				} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					ImageDisplayWindow.this.dispose();
+				} else if (e.getKeyCode() == KeyEvent.VK_F2){
+					toolbarFrame.setVisible(true);
 				}
 			}
 		},AWTEvent.KEY_EVENT_MASK);
@@ -146,7 +185,8 @@ public class ImageDisplayWindow extends JFrame {
 					x = e.getXOnScreen();
 					y = e.getYOnScreen();
 				} else if(button == 3){
-
+					int x = e.getX();
+					int y = e.getY();
 				}
 			}
 
@@ -165,11 +205,6 @@ public class ImageDisplayWindow extends JFrame {
 		};
 		imagePanel.addMouseListener(imageMouseAdapter);
 		imagePanel.addMouseMotionListener(imageMouseAdapter);
-		resetButton.addActionListener((e) -> {
-			scalePercent = 100;
-			scaleImage();
-			imagePanel.setLocation(0, 0);
-		});
 	}
 
 	/**
@@ -197,6 +232,12 @@ public class ImageDisplayWindow extends JFrame {
 		);
 	}
 
+	@Override
+	public void dispose() {
+		toolbarFrame.dispose();
+		super.dispose();
+	}
+
 	public int getScrollIncrement() {
 		return scrollIncrement;
 	}
@@ -217,9 +258,9 @@ public class ImageDisplayWindow extends JFrame {
 	public static void main(String args[]) {
 		long start = System.currentTimeMillis();
 		try {
-			String file = "D:\\Documents\\宣墨白\\intell\\out\\out-_20";
-			ShortImageFile shortImage = new ShortImageFile(file);
-			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
+			String file = "D:\\Documents\\宣墨白\\intell\\out\\out_diff_87";
+			ShortSatImage shortImage = new ShortImageReader(file).getImage();
+			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1,1,1);
 			frame.setVisible(true);
 //			for(int i = 0; i < 49; i++) {
 //				frame.redrawImagePanel();

@@ -1,4 +1,6 @@
-package utils;
+package utils.tools;
+
+import utils.imaging.SatImageFileHdr;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -8,7 +10,7 @@ import java.nio.file.Paths;
 
 /**
  * 用于静态调用
- * @see HdrGenerator#generate(EnviImageFile, String, int, int, int)
+ * @see HdrGenerator#generate(SatImageFileHdr, String, int, int, int)
  */
 @SuppressWarnings("ALL")
 public class HdrGenerator
@@ -40,13 +42,13 @@ public class HdrGenerator
 	 * @param xstart 水平坐标的起始值
 	 * @param bands 文件包含的波段数量
 	 */
-	public static void generate(EnviImageFile enviImage, String filename, int ystart, int xstart, int bands)
+	public static void generate(SatImageFileHdr enviImage, String filename, int ystart, int xstart, int bands)
 	{
 		String s1 = "ENVI\ndescription = {\nFile Resize Result, x resize factor: 1.000000, y resize factor: 1.000000.\n[Tue Apr 25 18:45:30 2017]}\n";
 		String s2 = "samples = 300\nlines = 300\nbands= " + bands + "\n";
 		String s3 = "header offset = 0\nfile type = ENVI Standard\ndata type = 2\ninterleave = bsq\nsensor type = Unknown\nbyte order = 1\n";
 		String s4 = "x start= " + (xstart + 1) + "\ny start= " + (ystart + 1) + "\n";
-		String s5 = "map info = {Geographic Lat/Lon, 1.0000, 1.0000," + (enviImage.getLon() + xstart * enviImage.getDeltaLon() + ",") + (enviImage.getLat() - ystart * enviImage.getDeltaLat() + ",") + enviImage.getDeltaLon() + "," + enviImage.getDeltaLat() + ",WGS-84, units=Degrees}";
+		String s5 = "map info = {Geographic lat/lon, 1.0000, 1.0000," + (enviImage.getLon() + xstart * enviImage.getDeltaLon() + ",") + (enviImage.getLat() - ystart * enviImage.getDeltaLat() + ",") + enviImage.getDeltaLon() + "," + enviImage.getDeltaLat() + ",WGS-84, units=Degrees}";
 		try
 		{
 			BufferedWriter bos = new BufferedWriter(new FileWriter(filename));
@@ -70,13 +72,13 @@ public class HdrGenerator
 	 * @param lines
 	 * @param samples
 	 */
-	public static void generate(EnviImageFile enviImage, String filename, int ystart, int xstart, int bands, int lines, int samples)
+	public static void generate(SatImageFileHdr enviImage, String filename, int ystart, int xstart, int bands, int lines, int samples)
 	{
 		String s1 = "ENVI\ndescription = {\nFile Resize Result, x resize factor: 1.000000, y resize factor: 1.000000.\n[Tue Apr 25 18:45:30 2017]}\n";
 		String s2 = "samples = " + samples + "\nlines = " + lines + "\nbands= " + bands + "\n";
 		String s3 = "header offset = 0\nfile type = ENVI Standard\ndata type = 2\ninterleave = bsq\nsensor type = Unknown\nbyte order = 1\n";
 		String s4 = "x start= " + (xstart + 1) + "\ny start= " + (ystart + 1) + "\n";
-		String s5 = "map info = {Geographic Lat/Lon, 1.0000, 1.0000," + (enviImage.getLon() + xstart * enviImage.getDeltaLon() + ",") + (enviImage.getLat() - ystart * enviImage.getDeltaLat() + ",") + enviImage.getDeltaLon() + "," + enviImage.getDeltaLat() + ",WGS-84, units=Degrees}";
+		String s5 = "map info = {Geographic lat/lon, 1.0000, 1.0000," + (enviImage.getLon() + xstart * enviImage.getDeltaLon() + ",") + (enviImage.getLat() - ystart * enviImage.getDeltaLat() + ",") + enviImage.getDeltaLon() + "," + enviImage.getDeltaLat() + ",WGS-84, units=Degrees}";
 		try
 		{
 			BufferedWriter bos = new BufferedWriter(new FileWriter(filename));

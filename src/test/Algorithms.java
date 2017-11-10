@@ -8,8 +8,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
-import utils.Pair;
-import utils.ShortImageFile;
+import utils.functional.ShortImageReader;
+import utils.imaging.ShortSatImage;
+import utils.tools.Pair;
 
 /**
  * 算法测试类<br>
@@ -168,9 +169,9 @@ public class Algorithms
         return getRegionCount(fpo);
     }
 
-    public static short[][] binaryProcess(ShortImageFile img, int threshold) throws IOException
+    public static short[][] binaryProcess(ShortSatImage img, int threshold) throws IOException
     {
-        short[][] image = img.getBand1InShorts();
+        short[][] image = img.getBand(1);
         int samples = img.getSamples();
         int lines = img.getLines();
         for (int i = 0; i < lines; i++)
@@ -233,7 +234,7 @@ public class Algorithms
      * @return int 推测出的阈值
      * @throws IOException
      */
-    public static int getThreshold(ShortImageFile img, int min, int max) throws IOException
+    public static int getThreshold(ShortSatImage img, int min, int max) throws IOException
     {
         double[] ratios = new double[max - min + 3];
         int[] counts = new int[max - min + 3];
@@ -351,11 +352,11 @@ public class Algorithms
         return fpo;
     }
 
-    public static Output_Data Just_Print_Start_End(ShortImageFile img, int threshold, FirstPassOutput fpo2) throws IOException
+    public static Output_Data Just_Print_Start_End(ShortSatImage img, int threshold, FirstPassOutput fpo2) throws IOException
     {
         Output_Data output_data = new Output_Data();
         Vector<Vector> new_v = new Vector<>();
-        short[][] image = img.getBand1InShorts();
+        short[][] image = img.getBand(1);
         int samples = img.getSamples();
         int lines = img.getLines();
         for (int i = 0; i < lines; i++)
@@ -412,20 +413,20 @@ public class Algorithms
      * @return double 0-1 之间的数值 0代表正交 1代表相等 -1代表反向
      * @throws IOException
      */
-    public static double calculateCosSimilarity(ShortImageFile img1, ShortImageFile img2) throws IOException
+    public static double calculateCosSimilarity(ShortSatImage img1, ShortSatImage img2) throws IOException
     {
         double dotProduct = 0;
         for (int i = 1; i <= 4; i++)
         {
-            dotProduct += (img1.getAvg(i) * img2.getAvg(i));
+            dotProduct += (img1.getAverage(i) * img2.getAverage(i));
         }
         double divisor1 = 0;
         double divisor2 = 0;
 
         for (int i = 1; i <= 4; i++)
         {
-            divisor1 += img1.getAvg(i) * img1.getAvg(i);
-            divisor2 += img2.getAvg(i) * img2.getAvg(i);
+            divisor1 += img1.getAverage(i) * img1.getAverage(i);
+            divisor2 += img2.getAverage(i) * img2.getAverage(i);
         }
 
         divisor1 = Math.sqrt(divisor1);
@@ -457,8 +458,8 @@ public class Algorithms
 
     public static void main(String[] args) throws IOException
     {
-        ShortImageFile shortImage1 = new ShortImageFile("C:\\4BandsOut\\4-Bands-_88");
-        ShortImageFile shortImage2 = new ShortImageFile("C:\\4BandsOut\\4-Bands-_89");
+        ShortSatImage shortImage1 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_88").getImage();
+        ShortSatImage shortImage2 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_89").getImage();
 
 
         double[] img88 = {82, 80, 107, 81};

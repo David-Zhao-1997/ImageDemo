@@ -1,4 +1,4 @@
-package utils;
+package utils.tools;
 
 /**
  * 静态工具类，用于byte数组和short数组互相转换

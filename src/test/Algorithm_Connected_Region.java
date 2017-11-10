@@ -1,6 +1,7 @@
 package test;
 
-import utils.ShortImageFile;
+import utils.functional.ShortImageReader;
+import utils.imaging.ShortSatImage;
 
 import static test.Algorithms.Find_Max_In_Array;
 import static test.Algorithms.FirstPassOutput;
@@ -19,8 +20,8 @@ public class Algorithm_Connected_Region
 {
     public static void main(String[] args) throws Exception
     {
-        ShortImageFile img = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
-        short[][] arr = img.getBand1InShorts();
+        ShortSatImage img = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+//        short[][] arr = img.getBand(1);
 
         int threshold = getThreshold(img, 220, 250);
 
