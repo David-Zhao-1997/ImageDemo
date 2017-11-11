@@ -171,7 +171,9 @@ public class Algorithms
 
     public static short[][] binaryProcess(ShortSatImage img, int threshold) throws IOException
     {
+//        System.out.println("----" + Arrays.deepToString(img.getBand(1)));
         short[][] image = img.getBand(1);
+        short[][] newImage = new short[image.length][image[0].length];
         int samples = img.getSamples();
         int lines = img.getLines();
         for (int i = 0; i < lines; i++)
@@ -180,21 +182,21 @@ public class Algorithms
             {
                 if (image[i][j] < threshold)
                 {
-                    image[i][j] = 0;
+                    newImage[i][j] = 0;
                 }
                 else
                 {
-                    image[i][j] = 255;
+                    newImage[i][j] = 255;
                 }
             }
         }
-        Run r = fillRunVectors(image);
+//        Run r = fillRunVectors(image);
 //        System.out.println("stRun:" + r.stRun);
 //        System.out.println("enRun:" + r.enRun);
 //        System.out.println("rowRun:" + r.rowRun);
 
 //        ShortImageFile.saveBandsToFile("C:\\1619", image);
-        return image;
+        return newImage;
     }
 
     //获取最大值的下标
@@ -236,6 +238,7 @@ public class Algorithms
      */
     public static int getThreshold(ShortSatImage img, int min, int max) throws IOException
     {
+//        System.out.println(Arrays.deepToString(img.getBand(1)));
         double[] ratios = new double[max - min + 3];
         int[] counts = new int[max - min + 3];
         int pre = 1;
@@ -398,9 +401,9 @@ public class Algorithms
             }
         }
 
-        System.out.println("stRun:" + r.stRun);
-        System.out.println("enRun:" + r.enRun);
-        System.out.println("rowRun:" + r.rowRun);
+//        System.out.println("stRun:" + r.stRun);
+//        System.out.println("enRun:" + r.enRun);
+//        System.out.println("rowRun:" + r.rowRun);
         output_data.save_Data = save_Data;
         return output_data;
     }
@@ -458,17 +461,17 @@ public class Algorithms
 
     public static void main(String[] args) throws IOException
     {
-        ShortSatImage shortImage1 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_88").getImage();
-        ShortSatImage shortImage2 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_89").getImage();
-
-
-        double[] img88 = {82, 80, 107, 81};
-        double[] img89 = {89, 89, 118, 91};
-        double sim = calculateCosSimilarity(img88, img89);
-        System.out.println(sim * 100000 - 99900);
-
-        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
-        System.out.println(similarity * 100000 - 99900);
+//        ShortSatImage shortImage1 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_88").getImage();
+//        ShortSatImage shortImage2 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_89").getImage();
+//
+//
+//        double[] img88 = {82, 80, 107, 81};
+//        double[] img89 = {89, 89, 118, 91};
+//        double sim = calculateCosSimilarity(img88, img89);
+//        System.out.println(sim * 100000 - 99900);
+//
+//        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
+//        System.out.println(similarity * 100000 - 99900);
 //        short[][] img = shortImage.getBand1InShorts();
 //        short[][] img1 = thresholding(shortImage,232);
 //        int count1 = connectedDomainCount(img1);
@@ -480,9 +483,10 @@ public class Algorithms
 //        int count3 = connectedDomainCount(img3);
 //        System.out.println(count3);
 //        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87");
-//        int threshold = getThreshold(shortImage, 220, 250);
-//        System.out.println(threshold);
+        ShortSatImage shortImage = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+//        System.out.println(Arrays.deepToString(shortImage.getBand(1)));
+        int threshold = getThreshold(shortImage, 220, 250);
+        System.out.println(threshold);
 //        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
 //        for (int i = 5; i < 468; i++)
 //        {
