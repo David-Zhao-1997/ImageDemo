@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import utils.functional.ShortImageReader;
@@ -472,41 +473,29 @@ public class Algorithms
 //
 //        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
 //        System.out.println(similarity * 100000 - 99900);
-//        short[][] img = shortImage.getBand1InShorts();
-//        short[][] img1 = thresholding(shortImage,232);
-//        int count1 = connectedDomainCount(img1);
-//        System.out.println(count1);
-//        short[][] img2 = thresholding(shortImage,235);
-//        int count2 = connectedDomainCount(img2);
-//        System.out.println(count2);
-//        short[][] img3 = thresholding(shortImage,240);
-//        int count3 = connectedDomainCount(img3);
-//        System.out.println(count3);
-//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\countTest\\count");
-        ShortSatImage shortImage = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
-//        System.out.println(Arrays.deepToString(shortImage.getBand(1)));
-        int threshold = getThreshold(shortImage, 220, 250);
-        System.out.println(threshold);
-//        ShortImageFile shortImage = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-260");
-//        for (int i = 5; i < 468; i++)
-//        {
-//            ShortImageFile sImg = new ShortImageFile("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i);
-//            try
-//            {
-//                int threshold = getThreshold(sImg, 0, 300);
-//                System.out.print("" + i+"---");
-//                System.out.print("" + sImg.getMax());
-//                System.out.print(" " + sImg.getMin());
-//                System.out.print(" " + sImg.getAvg());
-//                System.out.print(" " + sImg.getVariance());
-//                System.out.println(" " + threshold);
-//            }
-//            catch (NoSuchElementException e)
-//            {
-//                //检测不到浒苔
-////                System.out.println();
-//            }
-//            System.out.println();
-    }
 
+
+//        ShortSatImage shortImage = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+//        int threshold = getThreshold(shortImage, 220, 250);
+//        System.out.println(threshold);
+
+
+        for (int i = 5; i < 468; i++)
+        {
+            ShortSatImage sImg = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i).getImage();
+            try
+            {
+                int threshold = getThreshold(sImg, 0, 300);
+                System.out.print("" + i + "---");
+                System.out.print(" " + sImg.getAverage(1));
+                System.out.print(" " + sImg.getVariance(1));
+                System.out.println(" " + threshold);
+            }
+            catch (NoSuchElementException e)
+            {
+                //检测不到浒苔
+//                System.out.println();
+            }
+        }
+    }
 }
