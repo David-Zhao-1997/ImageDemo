@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import utils.functional.ShortImageReader;
@@ -19,7 +18,7 @@ import utils.tools.Pair;
  *
  * @see Algorithms#connectedDomainCount(short[][])
  */
-@SuppressWarnings("All")
+@SuppressWarnings("Duplicates")
 public class Algorithms
 {
 
@@ -56,7 +55,7 @@ public class Algorithms
          */
         public Output_Data()
         {
-            for (int i = 0; i < 305; i++)
+            for (int i = 0; i < 305; i++) //FIXME hardcode 305
             {
                 data_out_vector.add(new Vector<Pair<Integer, Integer>>());
             }
@@ -460,10 +459,40 @@ public class Algorithms
     }
 
 
+    public static Vector<Vector> getProliferaCoords(ShortSatImage img) throws IOException
+    {
+//        ShortSatImage img = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+//        short[][] arr = img.getBand(1);
+        int threshold = getThreshold(img, 220, 250);
+        short[][] img_short = binaryProcess(img, threshold);
+        FirstPassOutput fpo = firstPass(fillRunVectors(img_short), 1);
+        FirstPassOutput fpo2 = replaceSameLabel(fpo);
+//        System.out.println("fpo2:" + Find_Max_In_Array(fpo2.runLabels) + " size:" + fpo2.runLabels.size());
+        int count = Find_Max_In_Array(fpo2.runLabels);
+        Output_Data out = Just_Print_Start_End(img, threshold, fpo2);
+        System.out.println(count);
+        System.out.println(out.data_out_vector.size());
+        for (int i = count + 1; i < out.data_out_vector.size(); i++)
+        {
+            out.data_out_vector.remove(i);
+        }
+        return out.data_out_vector;
+//        System.out.println(out.data_out_vector.size());
+//        System.out.println(out.data_out_vector.get(301));
+    }
+
+
     public static void main(String[] args) throws IOException
     {
+        ShortSatImage shortImage1 = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+        Vector<Vector> res = getProliferaCoords(shortImage1);
+        System.out.println(res.size());
+        //比较相似度
 //        ShortSatImage shortImage1 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_88").getImage();
 //        ShortSatImage shortImage2 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_89").getImage();
+//        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
+//        System.out.println(similarity * 100000 - 99900);
+        //比较相似度
 //
 //
 //        double[] img88 = {82, 80, 107, 81};
@@ -471,8 +500,6 @@ public class Algorithms
 //        double sim = calculateCosSimilarity(img88, img89);
 //        System.out.println(sim * 100000 - 99900);
 //
-//        double similarity = calculateCosSimilarity(shortImage1, shortImage2);
-//        System.out.println(similarity * 100000 - 99900);
 
 
 //        ShortSatImage shortImage = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
@@ -480,22 +507,22 @@ public class Algorithms
 //        System.out.println(threshold);
 
 
-        for (int i = 5; i < 468; i++)
-        {
-            ShortSatImage sImg = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i).getImage();
-            try
-            {
-                int threshold = getThreshold(sImg, 0, 300);
-                System.out.print("" + i + "---");
-                System.out.print(" " + sImg.getAverage(1));
-                System.out.print(" " + sImg.getVariance(1));
-                System.out.println(" " + threshold);
-            }
-            catch (NoSuchElementException e)
-            {
-                //检测不到浒苔
-//                System.out.println();
-            }
-        }
+//        for (int i = 5; i < 468; i++)
+//        {
+//            ShortSatImage sImg = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i).getImage();
+//            try
+//            {
+//                int threshold = getThreshold(sImg, 0, 300);
+//                System.out.print("" + i + "---");
+//                System.out.print(" " + sImg.getAverage(1));
+//                System.out.print(" " + sImg.getVariance(1));
+//                System.out.println(" " + threshold);
+//            }
+//            catch (NoSuchElementException e)
+//            {
+//                //检测不到浒苔
+////                System.out.println();
+//            }
+//        }
     }
 }

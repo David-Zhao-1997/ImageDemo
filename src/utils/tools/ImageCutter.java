@@ -3,6 +3,8 @@ package utils.tools;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import graphics.ui.ImageDisplayWindow;
+import utils.functional.ShortImageReader;
 import utils.functional.ShortImageWriter;
 import utils.functional.ZiYuan3Reader;
 import utils.imaging.ShortSatImage;
@@ -26,13 +28,19 @@ public class ImageCutter
 
         int width = 300; // 切割出的子图片的宽度
         int height = 300; // 切割出的子图片的高度
-        String inputFilePath = "D:\\Documents\\宣墨白\\intell\\111";
+//        String inputFilePath = "D:\\Documents\\宣墨白\\intell\\111";
 //		String outputFilePath = "D:\\Documents\\宣墨白\\intell\\out\\out";
-        String outputFilePath = "D:\\Documents\\宣墨白\\intell\\out\\out_diff";
-        ShortSatImage image = new ZiYuan3Reader(inputFilePath).getImage();
-        ShortSatImage diff = minusAndCut(image);
-        image = null;
-        cut(300, 300, diff, outputFilePath, 255);
+//        String outputFilePath = "D:\\Documents\\宣墨白\\intell\\out\\out_diff";
+        String file1 = "C:\\4BandsOut\\4-Bands-_87";
+//        String file2 = "C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87";
+        ShortSatImage shortImage = new ShortImageReader(file1).getImage();
+        ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
+        frame.setVisible(true);
+//        ShortSatImage diff = minusAndCut(shortImage);
+//        ImageDisplayWindow frame2 = new ImageDisplayWindow(diff);
+//        frame2.setVisible(true);
+//        image = null;
+//        cut(300, 300, diff, outputFilePath, 255);
 //		cut(width, height, image, outputFilePath);
     }
 

@@ -34,17 +34,18 @@ public class Algorithm_Connected_Region
 
 
         FirstPassOutput fpo = firstPass(fillRunVectors(img_short), 1);
-        System.out.println(fpo.runLabels);
-        System.out.println(fpo.equivalences);
-        System.out.println("fpo1:" + Find_Max_In_Array(fpo.runLabels) + " size:" + fpo.runLabels.size());
+//        System.out.println(fpo.runLabels);
+//        System.out.println(fpo.equivalences);
+//        System.out.println("fpo1:" + Find_Max_In_Array(fpo.runLabels) + " size:" + fpo.runLabels.size());
 
         FirstPassOutput fpo2 = replaceSameLabel(fpo);
 
-        System.out.println(fpo2.runLabels);//对应的等价序列的等价块序号
-        System.out.println(fpo2.equivalences);
+//        System.out.println(fpo2.runLabels);//对应的等价序列的等价块序号
+//        System.out.println(fpo2.equivalences);
         System.out.println("fpo2:" + Find_Max_In_Array(fpo2.runLabels) + " size:" + fpo2.runLabels.size());
 
         Output_Data out = Just_Print_Start_End(img, threshold, fpo2);
+        //打印结果
         for (int i = 0; i < out.save_Data.length; i++)
         {
             for (int j = 0; j < out.save_Data[i].length; j++)
@@ -53,6 +54,8 @@ public class Algorithm_Connected_Region
             }
             System.out.println();
         }
-        System.out.println(out.data_out_vector.get(1));
+        //打印结果
+        System.out.println(out.data_out_vector.size());
+        System.out.println(out.data_out_vector.get(301));
     }
 }
