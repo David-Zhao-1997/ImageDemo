@@ -14,7 +14,7 @@ public class Conn
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String dbURL = "jdbc:sqlserver://123.206.204.252:1433;DatabaseName=miniHotel";
+            String dbURL = "jdbc:sqlserver://123.206.204.252:1433;DatabaseName=GreenTide";
             String userName = "david";
             String userPwd = "qaz13047409865";
             conn = DriverManager.getConnection(dbURL, userName, userPwd);

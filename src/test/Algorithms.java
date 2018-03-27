@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import utils.functional.ShortImageReader;
@@ -48,6 +49,7 @@ public class Algorithms
     {
         int[][] save_Data;
         Vector<Vector> data_out_vector = new Vector<>();
+        int regionCount;
 
         /**
          * @author Henry
@@ -59,6 +61,36 @@ public class Algorithms
             {
                 data_out_vector.add(new Vector<Pair<Integer, Integer>>());
             }
+        }
+
+        public int[][] getSave_Data()
+        {
+            return save_Data;
+        }
+
+        public void setSave_Data(int[][] save_Data)
+        {
+            this.save_Data = save_Data;
+        }
+
+        public Vector<Vector> getData_out_vector()
+        {
+            return data_out_vector;
+        }
+
+        public void setData_out_vector(Vector<Vector> data_out_vector)
+        {
+            this.data_out_vector = data_out_vector;
+        }
+
+        public int getRegionCount()
+        {
+            return regionCount;
+        }
+
+        public void setRegionCount(int regionCount)
+        {
+            this.regionCount = regionCount;
         }
     }
 
@@ -91,6 +123,7 @@ public class Algorithms
         }
         return run;
     }
+
 
     public static FirstPassOutput firstPass(Run run, int offset)
     {
@@ -167,6 +200,27 @@ public class Algorithms
 //        		System.out.println("equivalences:" + fpo.equivalences);
 //        		System.out.println("regionCount:" + getRegionCount(fpo));
         return getRegionCount(fpo);
+    }
+
+
+    public static ShortSatImage generateMinusedImage(ShortSatImage image) throws IOException
+    {
+        short[][] band3 = image.getBand(3);
+        short[][] band4 = image.getBand(4);
+        int lines = image.getLines(), samples = image.getSamples();
+        short[][] diff = new short[lines][samples];
+        for (int i = 0; i < lines; i++)
+        {
+            for (int j = 0; j < samples; j++)
+            {
+                diff[i][j] = (short) (band4[i][j] - band3[i][j] + 255);
+            }
+        }
+        ArrayList<short[][]> tempImage = new ArrayList<>();
+        tempImage.add(diff);
+        ShortSatImage diffImage = new ShortSatImage(image, tempImage);
+        diffImage.setBandCount(1);
+        return diffImage;
     }
 
     public static short[][] binaryProcess(ShortSatImage img, int threshold) throws IOException
@@ -470,23 +524,73 @@ public class Algorithms
 //        System.out.println("fpo2:" + Find_Max_In_Array(fpo2.runLabels) + " size:" + fpo2.runLabels.size());
         int count = Find_Max_In_Array(fpo2.runLabels);
         Output_Data out = Just_Print_Start_End(img, threshold, fpo2);
-        System.out.println(count);
-        System.out.println(out.data_out_vector.size());
-        for (int i = count + 1; i < out.data_out_vector.size(); i++)
-        {
-            out.data_out_vector.remove(i);
-        }
+        System.out.println("count:" + count);
+//        System.out.println(out.data_out_vector.size());//FIXME hardcode 305
+//        for (int i = count + 1; i < out.data_out_vector.size(); i++)
+//        {
+//            out.data_out_vector.remove(i);
+//        }
         return out.data_out_vector;
 //        System.out.println(out.data_out_vector.size());
 //        System.out.println(out.data_out_vector.get(301));
     }
 
+    public static Output_Data getProlifeCoords(ShortSatImage img) throws IOException
+    {
+//        ShortSatImage img = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+//        short[][] arr = img.getBand(1);
+        int threshold = getThreshold(img, 220, 250);
+        short[][] img_short = binaryProcess(img, threshold);
+        FirstPassOutput fpo = firstPass(fillRunVectors(img_short), 1);
+        FirstPassOutput fpo2 = replaceSameLabel(fpo);
+//        System.out.println("fpo2:" + Find_Max_In_Array(fpo2.runLabels) + " size:" + fpo2.runLabels.size());
+        int count = Find_Max_In_Array(fpo2.runLabels);
+        Output_Data out = Just_Print_Start_End(img, threshold, fpo2);
+        out.setRegionCount(count);
+//        System.out.println("count:"+count);
+//        System.out.println(out.data_out_vector.size());//FIXME hardcode 305
+//        for (int i = count + 1; i < out.data_out_vector.size(); i++)
+//        {
+//            out.data_out_vector.remove(i);
+//        }
+//        return out.data_out_vector;
+        return out;
+//        System.out.println(out.data_out_vector.size());
+//        System.out.println(out.data_out_vector.get(301));
+    }
+
+    public static void processImage()
+    {
+
+    }
+
+    public static int getRegionArea(Output_Data out, int index)
+    {
+        return out.data_out_vector.get(index).size();
+    }
+
+    public static int getRegionArea(Output_Data out)
+    {
+        int sum = 0;
+        for (int i = 0; i < out.getRegionCount(); i++)
+        {
+            sum += out.data_out_vector.get(i).size();
+        }
+        return sum;
+    }
+
+
 
     public static void main(String[] args) throws IOException
     {
-        ShortSatImage shortImage1 = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
-        Vector<Vector> res = getProliferaCoords(shortImage1);
-        System.out.println(res.size());
+        ShortSatImage shortImage1 = new//        Vector<Vector> res = getProliferaCoords(shortImage1);
+                ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-87").getImage();
+        Output_Data output_data = getProlifeCoords(shortImage1);
+        System.out.println(output_data.getRegionCount());
+        System.out.println(output_data.data_out_vector.get(206));
+        System.out.println("coords of 206:" + getRegionArea(output_data, 206));
+        System.out.println(getRegionArea(output_data));
+//        System.out.println(res.size());
         //比较相似度
 //        ShortSatImage shortImage1 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_88").getImage();
 //        ShortSatImage shortImage2 = new ShortImageReader("C:\\4BandsOut\\4-Bands-_89").getImage();
@@ -507,22 +611,22 @@ public class Algorithms
 //        System.out.println(threshold);
 
 
-//        for (int i = 5; i < 468; i++)
-//        {
-//            ShortSatImage sImg = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i).getImage();
-//            try
-//            {
-//                int threshold = getThreshold(sImg, 0, 300);
-//                System.out.print("" + i + "---");
-//                System.out.print(" " + sImg.getAverage(1));
-//                System.out.print(" " + sImg.getVariance(1));
-//                System.out.println(" " + threshold);
-//            }
-//            catch (NoSuchElementException e)
-//            {
-//                //检测不到浒苔
-////                System.out.println();
-//            }
-//        }
+        for (int i = 5; i < 468; i++)
+        {
+            ShortSatImage sImg = new ShortImageReader("C:\\Users\\Administrator\\Desktop\\cut\\TEST-OUT-" + i).getImage();
+            try
+            {
+                int threshold = getThreshold(sImg, 0, 300);
+                System.out.print("" + i + "---");
+                System.out.print(" " + sImg.getAverage(1));
+                System.out.print(" " + sImg.getVariance(1));
+                System.out.println(" " + threshold);
+            }
+            catch (NoSuchElementException e)
+            {
+                //检测不到浒苔
+//                System.out.println();
+            }
+        }
     }
 }

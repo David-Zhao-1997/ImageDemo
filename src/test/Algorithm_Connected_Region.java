@@ -25,7 +25,7 @@ public class Algorithm_Connected_Region
 
         int threshold = getThreshold(img, 220, 250);
 
-//        System.out.println(threshold);
+        System.out.println("threshold:"+threshold);
         short[][] img_short = binaryProcess(img, threshold);
 
 
@@ -54,8 +54,9 @@ public class Algorithm_Connected_Region
             }
             System.out.println();
         }
+        System.out.println("Region Count:"+Find_Max_In_Array(fpo2.runLabels));
         //打印结果
-        System.out.println(out.data_out_vector.size());
-        System.out.println(out.data_out_vector.get(301));
+//        System.out.println(out.data_out_vector.size());
+//        System.out.println(out.data_out_vector.get(206));
     }
 }
