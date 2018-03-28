@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import graphics.ui.ImageDisplayWindow;
-import utils.functional.ShortImageReader;
-import utils.functional.ShortImageWriter;
-import utils.functional.ZiYuan3Reader;
+import utils.io.ShortImageReader;
+import utils.io.ShortImageWriter;
 import utils.imaging.ShortSatImage;
 
 /**

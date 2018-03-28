@@ -1,4 +1,4 @@
-package utils.functional;
+package utils.io;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;

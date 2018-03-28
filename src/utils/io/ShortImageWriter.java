@@ -1,4 +1,4 @@
-package utils.functional;
+package utils.io;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;

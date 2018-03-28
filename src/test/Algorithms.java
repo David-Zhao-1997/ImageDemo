@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
-import utils.functional.ShortImageReader;
+import utils.io.ShortImageReader;
 import utils.imaging.ShortSatImage;
 import utils.tools.Pair;
 
@@ -162,7 +162,7 @@ public class Algorithms
                     {
                         runLabels.set(i, runLabels.get(j));
                     }
-                    else if (runLabels.get(i) != runLabels.get(j))//已经被标号 //noinspection NumberEquality
+                    else if (!runLabels.get(i).equals(runLabels.get(j)))//已经被标号 //noinspection NumberEquality
                     {
 //                        System.out.println(runLabels.get(i)+"---"+runLabels.get(j));
                         equivalences.add(Pair.create(runLabels.get(i), runLabels.get(j)));//保存等价对
@@ -342,7 +342,7 @@ public class Algorithms
     public static FirstPassOutput replaceSameLabel(FirstPassOutput fpo)
     {
         int maxLabel = Find_Max_In_Array(fpo.runLabels);
-        Vector<Vector> eqTab = new Vector();
+        Vector<Vector> eqTab = new Vector<>();
         for (int i = 0; i < maxLabel; i++)
         {
             Vector<Boolean> in = new Vector<Boolean>();

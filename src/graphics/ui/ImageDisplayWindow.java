@@ -19,7 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import graphics.utils.AWTEventAdapter;
-import utils.functional.ZiYuan3Reader;
+import utils.io.ZiYuan3Reader;
 import utils.imaging.ShortSatImage;
 
 public class ImageDisplayWindow extends JFrame

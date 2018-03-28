@@ -1,6 +1,6 @@
 package test;
 
-import utils.functional.ShortImageReader;
+import utils.io.ShortImageReader;
 import utils.imaging.ShortSatImage;
 
 import static test.Algorithms.Find_Max_In_Array;

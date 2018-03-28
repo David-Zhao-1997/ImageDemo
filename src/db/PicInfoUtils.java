@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import utils.functional.ShortImageReader;
+import utils.io.ShortImageReader;
 import utils.imaging.ShortSatImage;
 
 public class PicInfoUtils

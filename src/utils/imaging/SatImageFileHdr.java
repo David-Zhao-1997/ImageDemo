@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * General ENVI Image.
  *
- * @see utils.functional.ZiYuan3Reader
+ * @see utils.io.ZiYuan3Reader
  * @see ShortSatImage
  */
 public class SatImageFileHdr

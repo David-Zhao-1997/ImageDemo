@@ -1,7 +1,7 @@
 package test;
 
 
-import utils.functional.ShortImageReader;
+import utils.io.ShortImageReader;
 import utils.imaging.ShortSatImage;
 
 public class CountTest
