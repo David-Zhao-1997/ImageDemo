@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileSelectorWindow extends JFrame {
 
@@ -141,10 +143,12 @@ public class FileSelectorWindow extends JFrame {
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			fileChooser.showDialog(FileSelectorWindow.this, "Open");
 			satFileField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+			Logger.getGlobal().log(Level.INFO, "Satellite file path set by user: " + satFileField.getText());
 			if (hdrFileField.getText().trim().equals("")) {
 				//if the other field is empty, try auto fill
 				File assumeHdrFile = new File(satFileField.getText() + ".HDR");
 				if(assumeHdrFile.exists()) {
+					Logger.getGlobal().log(Level.INFO, "Hdr file exists, auto-filled Hdr path");
 					clearBandCount();
 					hdrFileField.setText(assumeHdrFile.getAbsolutePath());
 				}
@@ -156,12 +160,15 @@ public class FileSelectorWindow extends JFrame {
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			fileChooser.showDialog(FileSelectorWindow.this, "Open");
 			hdrFileField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+			Logger.getGlobal().log(Level.INFO, "Hdr file path set by user: " + hdrFileField.getText());
 			clearBandCount();
 			if (satFileField.getText().trim().equals("")) {
 				//if the other field is empty, try auto fill
 				File assumeSatFile = new File(hdrFileField.getText().replace(".HDR",""));
-				if(assumeSatFile.exists())
+				if(assumeSatFile.exists()) {
+					Logger.getGlobal().log(Level.INFO, "Satellite image file exists, auto-filled image path");
 					satFileField.setText(assumeSatFile.getAbsolutePath());
+				}
 			}
 			tryAutoLoadHdr();
 		});
@@ -174,9 +181,12 @@ public class FileSelectorWindow extends JFrame {
 	}
 
 	private void tryAutoLoadHdr() {
+		Logger.getGlobal().log(Level.INFO, "Auto-loading Hdr file");
 		if(new File(hdrFileField.getText()).exists())
 			//Auto load hdr if file exists
 			loadHdrFromField();
+		else
+			Logger.getGlobal().log(Level.INFO, "Hdr file not exist");
 	}
 
 	private void loadImageFromField(){
@@ -191,6 +201,7 @@ public class FileSelectorWindow extends JFrame {
 			int bandCount = imageFileHdr.readHdr().getBandCount();
 			setBandCount(bandCount);
 			isHdrLoaded = true;
+			Logger.getGlobal().log(Level.INFO, "Hdr loaded successfully");
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(FileSelectorWindow.this,
 					"I/O Error loading HDR file, please check the hdr path",
@@ -202,6 +213,7 @@ public class FileSelectorWindow extends JFrame {
 	}
 
 	private void setBandCount(int bandCount){
+		Logger.getGlobal().log(Level.INFO, "Setting band-count as " + bandCount);
 		clearBandCount();
 		for (int i = 0; i < bandCount; i++) {
 			rCombo.addItem(i + 1);
@@ -220,6 +232,7 @@ public class FileSelectorWindow extends JFrame {
 	private class ImageLoadingThread extends Thread{
 		@Override
 		public void run() {
+			Logger.getGlobal().log(Level.INFO, "ImageLoadingThread has started");
 			if(!isHdrLoaded){
 				JOptionPane.showMessageDialog(FileSelectorWindow.this,
 						"HDR file not loaded. Please load hdr file first!",
@@ -229,8 +242,10 @@ public class FileSelectorWindow extends JFrame {
 			SatImageReader reader = null;
 			if(ziYuan3TypeRadio.isSelected()){
 				reader = new ZiYuan3Reader(satFileField.getText());
+				Logger.getGlobal().log(Level.INFO, "Initializing ZiYuan3Reader");
 			} else if(shortImageRadio.isSelected()){
 				reader = new ShortImageReader(satFileField.getText());
+				Logger.getGlobal().log(Level.INFO, "Initializing ShortImageReader");
 			} else {
 				JOptionPane.showMessageDialog(FileSelectorWindow.this,
 						"Please specify the image type!",
@@ -239,12 +254,16 @@ public class FileSelectorWindow extends JFrame {
 			}
 			if(reader!=null){
 				loadImageButton.setEnabled(false);
+				Logger.getGlobal().log(Level.INFO, "Started image loading");
+				long timer = System.currentTimeMillis();
 				try {
 					ShortSatImage image = reader.getImage();
 					int r = (int) rCombo.getSelectedItem();
 					int g = (int) gCombo.getSelectedItem();
 					int b = (int) bCombo.getSelectedItem();
-					System.out.println("RGB Selected: " + r + g + b);
+					Logger.getGlobal().log(Level.INFO, "Image loading completed, Initializing image window");
+					timer = System.currentTimeMillis() - timer;
+					Logger.getGlobal().log(Level.INFO, "Image loading took " + timer + "ms");
 					ImageDisplayWindow window = new ImageDisplayWindow(image,r,g,b);
 					window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					window.setVisible(true);

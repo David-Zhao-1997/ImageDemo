@@ -8,15 +8,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import graphics.utils.AWTEventAdapter;
 import utils.io.ZiYuan3Reader;
@@ -45,6 +40,7 @@ public class ImageDisplayWindow extends JFrame {
 //	private double minScale = 0.1;
 	private int scalePercent = 100;
 
+	@Deprecated
 	public ImageDisplayWindow(ImagePanel imagePanel) {
 		this.imagePanel = imagePanel;
 		initUI();
@@ -53,6 +49,7 @@ public class ImageDisplayWindow extends JFrame {
 
 	//TODO 防止下标越界
 	public ImageDisplayWindow(ShortSatImage shortImage, int bandR, int bandG, int bandB) {
+		long timer = System.currentTimeMillis();
 		this.shortImage = shortImage;
 		this.bandR = bandR;
 		this.bandG = bandG;
@@ -61,7 +58,8 @@ public class ImageDisplayWindow extends JFrame {
 			this.imagePanel = new ImagePanel(shortImage, bandR, bandG, bandB);
 			initUI();
 			initListeners();
-
+			timer = System.currentTimeMillis() - timer;
+			Logger.getGlobal().log(Level.INFO, "Image window loaded, took " + timer + "ms");
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(ImageDisplayWindow.this, e.getMessage(), e.toString(), JOptionPane.ERROR_MESSAGE);
@@ -287,6 +285,7 @@ public class ImageDisplayWindow extends JFrame {
 		private JPanel tool_jPanel;
 		private JButton resetButton;
 		private JTextArea infoArea;
+		private JCheckBox alwaysOnTopCheckBox;
 
 		//Members
 		String coordinationInfo;
@@ -315,6 +314,11 @@ public class ImageDisplayWindow extends JFrame {
 			this.resetButton = new JButton("Reset");
 			resetButton.setBounds(3, 3, 100, 20);
 			this.add(resetButton);
+
+			this.alwaysOnTopCheckBox = new JCheckBox("Always on Top");
+			alwaysOnTopCheckBox.setBounds(123, 3, 200, 20);
+			alwaysOnTopCheckBox.setSelected(true);
+			this.add(alwaysOnTopCheckBox);
 
 			this.infoArea = new JTextArea();
 			this.infoArea.setEditable(false);
@@ -381,6 +385,9 @@ public class ImageDisplayWindow extends JFrame {
 				ImageDisplayWindow.this.scaleImage(100);
 				ImageDisplayWindow.this.imagePanel.setLocation(0, 0);
 			});
+			alwaysOnTopCheckBox.addActionListener(e -> {
+				ToolbarWindow.this.setAlwaysOnTop(alwaysOnTopCheckBox.isSelected());
+			});
 		}
 
 
@@ -393,7 +400,7 @@ public class ImageDisplayWindow extends JFrame {
 //			String file = "C:\\4BandsOut\\4-Bands-_87";
 //			ShortSatImage shortImage = new ShortImageReader(file).getImage();
 			ShortSatImage shortImage = new ZiYuan3Reader(file).getImage();
-			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 1, 1);
+			ImageDisplayWindow frame = new ImageDisplayWindow(shortImage, 1, 2, 3);
 			frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			frame.setVisible(true);
 //			for(int i = 0; i < 49; i++) {
