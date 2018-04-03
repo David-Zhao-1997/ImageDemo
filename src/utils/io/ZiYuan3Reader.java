@@ -33,7 +33,8 @@ public class ZiYuan3Reader implements SatImageReader
     {
         if (image == null)
         {
-            SatImageFileHdr hdr = new SatImageFileHdr(filepath);
+            //FIXME Hardcode 已假定文件名完全一致
+            SatImageFileHdr hdr = new SatImageFileHdr(filepath + ".hdr");
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(filepath));
             ArrayList<short[][]> bands = new ArrayList<>();
             int bandCount = hdr.getBandCount();

@@ -21,7 +21,7 @@ public class ByteImageFile extends SatImageFileHdr
 
     public ByteImageFile(String filename) throws IOException
     {
-        super(filename);
+        super(filename + ".hdr");
     }
 
     private byte[][] band1;

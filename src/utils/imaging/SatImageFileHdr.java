@@ -7,10 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * General ENVI Image.
+ * 本身有读取功能的Hdr代表类
+ * <p>构造后使用{@link #readHdr()}</p>
+ * <p>然后使用任意get方法获得Hdr信息</p>
  *
- * @see utils.io.ZiYuan3Reader
- * @see ShortSatImage
  */
 public class SatImageFileHdr
 {
@@ -55,7 +55,7 @@ public class SatImageFileHdr
     /**
      * 用于读取图像文件的工具类
      *
-     * @param filename 传入文件路径
+     * @param filename 传入文件路径，包括后缀名
      * @throws IOException
      */
     public SatImageFileHdr(String filename) throws IOException
@@ -64,9 +64,14 @@ public class SatImageFileHdr
         readHdr();
     }
 
-    public void readHdr() throws IOException
+    /**
+     * 需要在任何get操作之前执行readHdr
+     * @throws IOException 文件读取出错时
+     * @return 自身，用于链式调用
+     */
+    public SatImageFileHdr readHdr() throws IOException
     {
-        BufferedReader bufr = new BufferedReader(new FileReader(path + ".hdr"));
+        BufferedReader bufr = new BufferedReader(new FileReader(path));
         String line;
         while ((line = bufr.readLine()) != null)
         {
@@ -119,6 +124,7 @@ public class SatImageFileHdr
             }
         }
         bufr.close();
+        return this;
     }
 
     /**
