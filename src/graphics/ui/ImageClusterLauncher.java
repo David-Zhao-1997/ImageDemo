@@ -211,6 +211,7 @@ public class ImageClusterLauncher extends JFrame {
 		@Override
 		public void run() {
 			try {
+				loadButton.setEnabled(false);
 				SatImageReader reader = new ShortImageReader(filepath);
 				ShortSatImage image = reader.getImage();
 				ImageClusterTask task = new ImageClusterTask(image, groupCount, iterateTime, new int[]{3, 3, 4});
@@ -237,6 +238,8 @@ public class ImageClusterLauncher extends JFrame {
 				JOptionPane.showMessageDialog(ImageClusterLauncher.this,
 						"IO错误", "错误", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
+			} finally {
+				loadButton.setEnabled(true);
 			}
 		}
 	}
