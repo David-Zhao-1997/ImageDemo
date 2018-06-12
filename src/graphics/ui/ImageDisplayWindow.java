@@ -1,7 +1,11 @@
 package graphics.ui;
 
-import java.awt.AWTEvent;
-import java.awt.Toolkit;
+import graphics.utils.AWTEventAdapter;
+import utils.imaging.ShortSatImage;
+import utils.io.ZiYuan3Reader;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,12 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.*;
-
-import graphics.utils.AWTEventAdapter;
-import utils.io.ZiYuan3Reader;
-import utils.imaging.ShortSatImage;
 
 /**
  * 用于显示图像的窗口，自带一个工具框
@@ -103,11 +101,9 @@ public class ImageDisplayWindow extends JFrame {
 					//F1 key
 					String message = "Drag to scroll. Alt + mouse wheel to zoom. F2 to open toolkit.";
 					JOptionPane.showMessageDialog(ImageDisplayWindow.this, message, "Help", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					ImageDisplayWindow.this.dispose();
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_F2) {
+				} else if (e.getKeyCode() == KeyEvent.VK_F2) {
 					toolbarWindow.setVisible(true);
 				}
 			}
@@ -122,8 +118,7 @@ public class ImageDisplayWindow extends JFrame {
 				if (e.isShiftDown()) {
 					//roll horizontally
 					imagePanel.setLocation(imagePanel.getX() - pixelsToScroll, imagePanel.getY());
-				}
-				else if (e.isAltDown()) {
+				} else if (e.isAltDown()) {
 					//Scale
 					//get current displaying image size
 //					int w, h;
@@ -132,21 +127,18 @@ public class ImageDisplayWindow extends JFrame {
 						if (scalePercent > 5) {
 							scaleImage((int) (scalePercent * 0.8));
 						}
-					}
-					else if (e.getUnitsToScroll() < 0) {
+					} else if (e.getUnitsToScroll() < 0) {
 						//Zoom in
 						if (scalePercent < MAX_ZOOM_PERCENT) {
 							if (scalePercent < 5) {
 								scaleImage(scalePercent + 2);
-							}
-							else {
+							} else {
 								scaleImage((int) (scalePercent * 1.2));
 							}
 						}
 					}
 
-				}
-				else {
+				} else {
 					imagePanel.setLocation(imagePanel.getX(), imagePanel.getY() - pixelsToScroll);
 				}
 			}

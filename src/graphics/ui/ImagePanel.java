@@ -1,13 +1,11 @@
 package graphics.ui;
 
-import java.awt.Graphics;
-import java.awt.Image;
+import utils.imaging.ShortSatImage;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.swing.JPanel;
-
-import utils.imaging.ShortSatImage;
 
 /**
  * <p>
@@ -121,7 +119,7 @@ public class ImagePanel extends JPanel {
 		g.drawImage(scaledImage, 0, 0, this);
 	}
 
-	public ShortSatImage getImage(){
+	public ShortSatImage getImage() {
 		return this.image;
 	}
 
